@@ -26,7 +26,7 @@ M.get('timelines/public', function(err, data, res) {
 })
 
 app.get('/', function(request, response) {
-  response.render('pages/index',{toots: toots});
+  response.render('pages/index', {toots : toots});
 });
 
 app.listen(app.get('port'), function() {
