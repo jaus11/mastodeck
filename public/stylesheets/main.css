@@ -28,6 +28,7 @@
 #column {
     width: 30%;
     background-color: black;
+    margin: 1px;
 }
 
 #cell {
