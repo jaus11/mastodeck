@@ -7,21 +7,9 @@
 </head>
 <body>
     <div id="column">
-        <div id="cell">
-            Toot!
-        </div>
-        <div id="cell">
-            Toot2!
-        </div>
-        <div id="cell">
-            Toot3!
-        </div>
-        <div id="cell">
-            Toot4!
-        </div>
-        <div id="cell">
-            Toot5!
-        </div>
+        <% toots.forEach(function (value, key) {)%>
+        <div id="cell"><%= value %></div>
+        <% }); %>
     </div>
 </body>
 </html>
