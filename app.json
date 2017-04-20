@@ -1,0 +1,6 @@
+{
+  "name": "mastodeck",
+  "description": "mastodon client",
+  "repository": "https://github.com/jaus11/mastodeck",
+  "keywords": ["node", "mastodon", "heroku"]
+}
