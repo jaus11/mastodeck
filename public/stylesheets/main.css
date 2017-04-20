@@ -25,3 +25,12 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+#column {
+    width: 30%;
+    background-color: black;
+}
+
+#cell {
+    height: 10%;
+    background-color: gray;
+}
