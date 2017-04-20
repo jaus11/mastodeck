@@ -9,7 +9,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-var Masto = require('mastodon')
+var Masto = require('./m_node_modules/mastodon/lib/mastodon')
 
 var M = new Masto({
     access_token: '952b8171760d85ed107e7ffca20e0c43bbd4bd8210961a910a392068746c9d60',
