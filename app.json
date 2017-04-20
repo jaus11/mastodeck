@@ -2,5 +2,7 @@
   "name": "mastodeck",
   "description": "mastodon client",
   "repository": "https://github.com/jaus11/mastodeck",
-  "keywords": ["node", "mastodon", "heroku"]
+  "logo": "http://mastodeck.herokuapp.com/node.svg",
+  "keywords": ["node", "mastodon", "heroku"],
+  "image": "heroku/nodejs"
 }
