@@ -33,7 +33,9 @@ M.get('timelines/home', function(err, data, res) {
 })
 
 app.get('/', function(request, response) {
-  response.render('pages/index', {toots : toots});
+  response.locals.toots_home = toots_home;
+  response.locals.toots_public = toots_public;
+  response.render('pages/index');
 });
 
 app.listen(app.get('port'), function() {
