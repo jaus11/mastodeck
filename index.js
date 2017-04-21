@@ -33,7 +33,7 @@ M.get('timelines/home', function(err, data, res) {
             toots_home.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
 })
 
-M.get('timelines/public/local', function(err, data, res) {
+M.get('notification', function(err, data, res) {
     if(!err)
         for (key in data)
             toots_local.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
