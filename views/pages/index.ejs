@@ -7,19 +7,19 @@
 </head>
 <body>
     <div id="column">
-        <div id="top">HOME</div>
+        <div id="top">Home</div>
         <% toots_home.forEach(function (value, key) {%>
-        <div id="cell"><%= value %></div>
+        <div id="cell"><img src=<%= value.profile_img %> width=10%><p class="id"><%= value.id %></p><p><%= value.content %></p></div>
         <% }); %>
     </div>
     <div id="column">
-        <div id="top">LOCAL</div>
+        <div id="top">Local</div>
         <% toots_local.forEach(function (value, key) {%>
-        <div id="cell"><%= value %></div>
+        <div id="cell"><%= value.id %></div>
         <% }); %>
     </div>
     <div id="column">
-        <div id="top">PUBLIC</div>
+        <div id="top">Public</div>
         <% toots_public.forEach(function (value, key) {%>
         <div id="cell"><%= value %></div>
         <% }); %>

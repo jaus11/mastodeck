@@ -47,3 +47,9 @@
     background-color: gray;
     margin: 5px;
 }
+
+.id {
+    color : white;
+    font-size: 2px;
+    display: block;
+}

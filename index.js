@@ -35,8 +35,14 @@ M.get('timelines/home', function(err, data, res) {
 
 M.get('timelines/public?local=on', function(err, data, res) {
     if(!err)
-        for (key in data)
-            toots_local.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
+        for (key in data) {
+            var toot = {
+                id : data[key].accout.username,
+                profile_img : data[key].accout.avatar,
+                content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+            };
+            toots_local.push(toot);
+        }
 })
 
 app.get('/', function(request, response) {
