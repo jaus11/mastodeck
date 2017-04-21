@@ -37,8 +37,8 @@ M.get('timelines/public?local=on', function(err, data, res) {
     if(!err)
         for (key in data) {
             var toot = {
-                id : data[key].accout.username,
-                profile_img : data[key].accout.avatar,
+                id : data[key].account.username,
+                profile_img : data[key].account.avatar,
                 content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
             };
             toots_local.push(toot);
