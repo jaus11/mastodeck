@@ -53,3 +53,7 @@
     font-size: 2px;
     display: block;
 }
+
+.prof_img {
+    display: inline-block;
+}
