@@ -17,12 +17,19 @@ var M = new Masto({
     api_url: 'https://rikadon.club/api/v1/',
 })
 
-var toots = []
+var toots_public = []
+var toots_home = []
 
 M.get('timelines/public', function(err, data, res) {
     if(!err)
         for (key in data)
-            toots.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
+            toots_public.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
+})
+
+M.get('timelines/home', function(err, data, res) {
+    if(!err)
+        for (key in data)
+            toots_home.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
 })
 
 app.get('/', function(request, response) {

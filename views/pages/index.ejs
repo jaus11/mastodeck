@@ -7,7 +7,12 @@
 </head>
 <body>
     <div id="column">
-        <% toots.forEach(function (value, key) {%>
+        <% toots_public.forEach(function (value, key) {%>
+        <div id="cell"><%= value %></div>
+        <% }); %>
+    </div>
+    <div id="column">
+        <% toots_home.forEach(function (value, key) {%>
         <div id="cell"><%= value %></div>
         <% }); %>
     </div>
