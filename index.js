@@ -1,16 +1,11 @@
 var express = require('express');
 var app = express();
-var OAuth = require('oauth');
-var cookieParser = require('cookie-parser')
 
 var client_id = 'e679466c41d0250560af8b7811fb0cae60471e8e30fa335a07fa6e19594fbd30';
 var client_secret = 'b776349fa2c99c178f618d769adafba1283f8d58f90f50d177465767cbaf738c';
 var redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 var access_token;
 var base_url = 'https://rikadon.club';
-
-app.use(cookieParser());
-app.use(express.session());
 
 app.set('port', (process.env.PORT || 5000));
 
