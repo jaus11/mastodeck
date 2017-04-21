@@ -19,7 +19,7 @@ var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
     if(!access_token) {
-        response.redirect(Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback'));
+        Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp.data))
     } else {
         var M = new Masto({
             access_token: access_token,
