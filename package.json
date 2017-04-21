@@ -12,7 +12,9 @@
   "dependencies": {
     "ejs": "2.5.6",
     "express": "4.15.2",
-    "mastodon": "1.1.1"
+    "mastodon": "1.1.1",
+    "oauth": "0.9.15",
+    "cookie-parser": "1.4.3"
   },
   "repository": {
     "type": "git",
