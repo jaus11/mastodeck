@@ -20,7 +20,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-var Masto = require('mastodon')
+var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
     if(!access_token) {
