@@ -7,16 +7,19 @@
 </head>
 <body>
     <div id="column">
+        <div id="top">HOME</div>
         <% toots_home.forEach(function (value, key) {%>
         <div id="cell"><%= value %></div>
         <% }); %>
     </div>
     <div id="column">
+        <div id="top">LOCAL</div>
         <% toots_local.forEach(function (value, key) {%>
         <div id="cell"><%= value %></div>
         <% }); %>
     </div>
     <div id="column">
+        <div id="top">PUBLIC</div>
         <% toots_public.forEach(function (value, key) {%>
         <div id="cell"><%= value %></div>
         <% }); %>

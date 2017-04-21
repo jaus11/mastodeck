@@ -31,6 +31,14 @@
     display: inline-block;
 }
 
+#top {
+    width: 30%;
+    background-color: black;
+    border-width: 2px;
+    border-color: rgb(0,10,10);
+    color: white;
+}
+
 #cell {
     height: 30%;
     background-color: gray;
