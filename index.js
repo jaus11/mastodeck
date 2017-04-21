@@ -74,7 +74,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/callback',function(request, response) {
-    access_token = Masto.getAccessToken(client_id, client_secret, request.code, baseUrl);
+    access_token = Masto.getAccessToken(client_id, client_secret, request.code, base_url);
     response.redirect('https://mastodeck.herokuapp.com/');
 });
 
