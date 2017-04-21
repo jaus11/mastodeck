@@ -12,6 +12,11 @@
         <% }); %>
     </div>
     <div id="column">
+        <% toots_local.forEach(function (value, key) {%>
+        <div id="cell"><%= value %></div>
+        <% }); %>
+    </div>
+    <div id="column">
         <% toots_public.forEach(function (value, key) {%>
         <div id="cell"><%= value %></div>
         <% }); %>
