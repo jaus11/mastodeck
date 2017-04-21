@@ -19,6 +19,7 @@ var M = new Masto({
 
 var toots_public = []
 var toots_home = []
+var toots_local = []
 
 M.get('timelines/public', function(err, data, res) {
     if(!err)
@@ -32,9 +33,16 @@ M.get('timelines/home', function(err, data, res) {
             toots_home.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
 })
 
+M.get('timelines/public/local', function(err, data, res) {
+    if(!err)
+        for (key in data)
+            toots_local.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
+})
+
 app.get('/', function(request, response) {
   response.locals.toots_home = toots_home;
   response.locals.toots_public = toots_public;
+  response.locals.toots_local = toots_local;
   response.render('pages/index');
 });
 
