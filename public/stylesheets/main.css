@@ -51,9 +51,13 @@
 .id {
     color : white;
     font-size: 2px;
-    display: block;
+    display: inline-block;
 }
 
 .prof_img {
     display: inline-block;
+}
+
+.content {
+    display: block;
 }
