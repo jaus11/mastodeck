@@ -28,7 +28,7 @@
 #column {
     width: 30%;
     background-color: black;
-    display: inline;
+    display: inline-block;
 }
 
 #cell {
