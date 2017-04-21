@@ -1,9 +1,9 @@
 var express = require('express');
 var app = express();
 
-var client_id = 'e679466c41d0250560af8b7811fb0cae60471e8e30fa335a07fa6e19594fbd30';
-var client_secret = 'b776349fa2c99c178f618d769adafba1283f8d58f90f50d177465767cbaf738c';
-var redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
+var client_id = '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
+var client_secret = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
+var redirect_uri = 'https://mastodeck.herokuapp.com/callback';
 var access_token;
 var base_url = 'https://rikadon.club';
 
@@ -19,7 +19,7 @@ var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
     if(!access_token) {
-        Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', '/callback').then(resp=> response.redirect(resp))
+        Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
     } else {
         var M = new Masto({
             access_token: access_token,
