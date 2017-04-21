@@ -29,8 +29,7 @@
     width: 30%;
     background-color: black;
     display: inline-block;
-    margin-top: 0px;
-    padding-top: 0px;
+    vertical-align: top;
 }
 
 #top {
