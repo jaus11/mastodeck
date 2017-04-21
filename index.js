@@ -23,14 +23,26 @@ var toots_local = []
 
 M.get('timelines/public', function(err, data, res) {
     if(!err)
-        for (key in data)
-            toots_public.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
+        for (key in data) {
+            var toot = {
+                id : data[key].account.username,
+                profile_img : data[key].account.avatar,
+                content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+            };
+            toots_public.push(toot);
+        }
 })
 
 M.get('timelines/home', function(err, data, res) {
     if(!err)
-        for (key in data)
-            toots_home.push(data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''))
+        for (key in data) {
+            var toot = {
+                id : data[key].account.username,
+                profile_img : data[key].account.avatar,
+                content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+            };
+            toots_home.push(toot);
+        }
 })
 
 M.get('timelines/public?local=on', function(err, data, res) {
