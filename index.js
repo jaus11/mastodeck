@@ -19,7 +19,7 @@ var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
     if(!access_token) {
-        app.redirect(Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback'));
+        response.redirect(Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback'));
     } else {
         var M = new Masto({
             access_token: access_token,
@@ -75,7 +75,7 @@ app.get('/', function(request, response) {
 
 app.get('/callback',function(request, response) {
     access_token = Masto.getAccessToken(client_id, client_secret, request.authorizationCode, baseUrl);
-    app.redirect('https://mastodeck.herokuapp.com/');
+    response.redirect('https://mastodeck.herokuapp.com/');
 });
 
 app.listen(app.get('port'), function() {
