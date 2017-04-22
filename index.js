@@ -88,9 +88,12 @@ app.get('/', function(request, response) {
 app.get('/callback',function(request, response) {
     var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     var instance = instances[request.cookies.instance];
-    Masto.getAccessToken(instance.client_id, instance.client_secret, request.query.code, instance.url).then(resp=> response.cookie('access_token',resp),error=> console.log(error));
-    console.log('【erro?】access token set : ');
-    response.redirect('https://mastodeck.herokuapp.com/');
+    Masto.getAccessToken(instance.client_id, instance.client_secret, request.query.code, instance.url)
+    .then(resp=> {
+        response.cookie('access_token',resp);
+        console.log('【erro?】access token set');
+        response.redirect('https://mastodeck.herokuapp.com/');
+    },error=> console.log(error));
 });
 
 app.post('/instance',function(request, response) {
