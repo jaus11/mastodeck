@@ -84,9 +84,9 @@ app.get('/callback',function(request, response) {
     response.redirect('https://mastodeck.herokuapp.com/');
 });
 
-app.post('/instance',function(request, response) {
-    request.
-});
+// app.post('/instance',function(request, response) {
+//     request.
+// });
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
