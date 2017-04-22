@@ -18,64 +18,69 @@ app.set('view engine', 'ejs');
 var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
-    if(!access_token) {
-        console.log('【erro?】access token is null');
-        Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
-    } else {
-        var M = new Masto({
-            access_token: access_token,
-            timeout_ms: 60 * 1000,
-            api_url: base_url + '/api/v1/',
-        })
+    if((!client_id)&&(!client_secret)){
 
-        var toots_public = []
-        var toots_home = []
-        var toots_local = []
+    }else{
+        if(!access_token) {
+            console.log('【erro?】access token is null');
+            Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
+        } else {
+            var M = new Masto({
+                access_token: access_token,
+                timeout_ms: 60 * 1000,
+                api_url: base_url + '/api/v1/',
+            })
 
-        M.get('timelines/public', function(err, data, res) {
-            if(!err)
-            for (key in data) {
-                var toot = {
-                    id : data[key].account.username,
-                    profile_img : data[key].account.avatar,
-                    content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-                };
-                toots_public.push(toot);
-            }
-        })
+            var toots_public = []
+            var toots_home = []
+            var toots_local = []
 
-        M.get('timelines/home', function(err, data, res) {
-            if(!err)
-            for (key in data) {
-                var toot = {
-                    id : data[key].account.username,
-                    profile_img : data[key].account.avatar,
-                    content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-                };
-                toots_home.push(toot);
-            }
-        })
+            M.get('timelines/public', function(err, data, res) {
+                if(!err)
+                for (key in data) {
+                    var toot = {
+                        id : data[key].account.username,
+                        profile_img : data[key].account.avatar,
+                        content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                    };
+                    toots_public.push(toot);
+                }
+            })
 
-        M.get('timelines/public?local=on', function(err, data, res) {
-            if(!err)
-            for (key in data) {
-                var toot = {
-                    id : data[key].account.username,
-                    profile_img : data[key].account.avatar,
-                    content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-                };
-                toots_local.push(toot);
-            }
-        })
-        response.locals.toots_home = toots_home;
-        response.locals.toots_public = toots_public;
-        response.locals.toots_local = toots_local;
-        response.render('pages/index');
+            M.get('timelines/home', function(err, data, res) {
+                if(!err)
+                for (key in data) {
+                    var toot = {
+                        id : data[key].account.username,
+                        profile_img : data[key].account.avatar,
+                        content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                    };
+                    toots_home.push(toot);
+                }
+            })
+
+            M.get('timelines/public?local=on', function(err, data, res) {
+                if(!err)
+                for (key in data) {
+                    var toot = {
+                        id : data[key].account.username,
+                        profile_img : data[key].account.avatar,
+                        content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                    };
+                    toots_local.push(toot);
+                }
+            })
+            response.locals.toots_home = toots_home;
+            response.locals.toots_public = toots_public;
+            response.locals.toots_local = toots_local;
+            response.render('pages/index');
+        }
     }
 });
 
 app.get('/callback',function(request, response) {
     Masto.getAccessToken(client_id, client_secret, request.code, base_url).then(resp=> access_token=response);
+    console.log('【erro?】access token set : ' + access_token);
     response.redirect('https://mastodeck.herokuapp.com/');
 });
 
