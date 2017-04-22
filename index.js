@@ -102,7 +102,7 @@ app.post('/instance',function(request, response) {
         response.cookie('instance',instance_name);
         Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
           .then(resp=> {
-              var instance_data = {
+              var instance = {
                   [instance_name]: {
                       url: base_url,
                       id: resp.id,
@@ -110,13 +110,10 @@ app.post('/instance',function(request, response) {
                       client_secret: resp.client_secret
                   }
               };
-              jsonfile.writeFileSync('public/token.json',instance_data,{encoding: 'utf-8'});
+              jsonfile.writeFileSync('public/token.json',instance,{encoding: 'utf-8'});
+              Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+                .then(resp=> response.redirect(resp),error=> console.log(error))
           },error=> console.log(error));
-        instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
-        var instance = instances[instance_name];
-        console.log(instance);
-        Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
-          .then(resp=> response.redirect(resp),error=> console.log(error))
     }
 });
 
