@@ -1,11 +1,12 @@
 var express = require('express');
 var app = express();
 
-var client_id = '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
-var client_secret  = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
+var id;
+var client_id; // = '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
+var client_secret; //  = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
 var redirect_uri = 'https://mastodeck.herokuapp.com/callback';
 var access_token;
-var base_url  = 'https://rikadon.club';
+var base_url; //  = 'https://rikadon.club';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -19,7 +20,7 @@ var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
     if((!client_id)&&(!client_secret)){
-
+        response.redirect('https://mastodeck.herokuapp.com/instance');
     }else{
         if(!access_token) {
             console.log('【erro?】access token is null');
@@ -79,15 +80,20 @@ app.get('/', function(request, response) {
 });
 
 app.get('/callback',function(request, response) {
-    console.log('【Code】 : ' + request.query.code);
-    Masto.getAccessToken(client_id, client_secret, request.query.code, base_url).then(resp=> console.log(resp),error=> console.log(error));
+    Masto.getAccessToken(client_id, client_secret, request.query.code, base_url).then(resp=> access_token=resp,error=> console.log(error));
     console.log('【erro?】access token set : ' + access_token);
     response.redirect('https://mastodeck.herokuapp.com/');
 });
 
-// app.post('/instance',function(request, response) {
-//     request.
-// });
+app.post('/instance',function(request, response) {
+    base_url = 'http://' + request.body.instance_name;
+    Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+      .then(resp=> {
+          id = resp.id;
+          client_id = resp.client_id;
+          client_secret = resp.client_secret;
+      });
+});
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
