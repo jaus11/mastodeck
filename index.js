@@ -30,6 +30,7 @@ app.get('/', function(request, response) {
     }else{
         if(!request.cookies.access_token) {
             console.log('【erro?】access token is null');
+            var jsonfile = require('jsonfile');
             var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
             var instance = instances[request.cookies.instance];
             Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
