@@ -1,11 +1,11 @@
 var express = require('express');
 var app = express();
 
-var client_id; //= '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
-var client_secret; // = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
+var client_id = '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
+var client_secret  = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
 var redirect_uri = 'https://mastodeck.herokuapp.com/callback';
 var access_token;
-var base_url; // = 'https://rikadon.club';
+var base_url  = 'https://rikadon.club';
 
 app.set('port', (process.env.PORT || 5000));
 
