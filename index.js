@@ -30,7 +30,10 @@ app.get('/', function(request, response) {
     }else{
         if(!request.cookies.access_token) {
             console.log('【erro?】access token is null');
-            Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp),error=> console.log(error))
+            var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
+            var instance = instances[request.cookies.instance];
+            Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+              .then(resp=> response.redirect(resp),error=> console.log(error))
         } else {
             var M = new Masto({
                 access_token: access_token,
