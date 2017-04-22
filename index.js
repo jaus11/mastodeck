@@ -19,10 +19,13 @@ app.set('view engine', 'ejs');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
-    if((!client_id)&&(!client_secret)){
+    if(!request.cookies.instance){
         response.render('pages/instanceselect.ejs');
     }else{
         if(!access_token) {
@@ -90,12 +93,19 @@ app.get('/callback',function(request, response) {
 
 app.post('/instance',function(request, response) {
     base_url = 'https://' + request.body.instance_name;
+    response.cookie('instance',request.body.instance_name);
     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
       .then(resp=> {
-          console.log(resp);
-          id = resp.id;
-          client_id = resp.client_id;
-          client_secret = resp.client_secret;
+          jsonfile.writeFile('token.json',{
+              request.body.instance_name: {
+                  instance_url: base_url,
+                  id: resp.id,
+                  client_id: resp.client_id,
+                  client_secret: resp.client_secret
+              }
+          },{
+              encoding: 'utf-8'
+          });
       },error=> console.log(error));
     Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
 });
