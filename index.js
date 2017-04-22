@@ -85,8 +85,8 @@ app.get('/callback',function(request, response) {
     response.redirect('https://mastodeck.herokuapp.com/');
 });
 
-app.post('/instance',function(request, response) {
-    base_url = 'http://' + request.body.instance_name;
+app.get('/instance',function(request, response) {
+    base_url = 'http://' + request.query.instance_name;
     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
       .then(resp=> {
           id = resp.id;
