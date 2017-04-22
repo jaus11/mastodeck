@@ -92,8 +92,11 @@ app.get('/', function(request, response) {
 app.get('/callback',function(request, response) {
     var jsonfile = require('jsonfile');
     var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
-    console.log(instances);
     var instance = instances[request.cookies.instance];
+    console.log(instance.client_id);
+    console.log(instance.client_secret);
+    console.log(request.query.code);
+    console.log(instance.url);
     Masto.getAccessToken(instance.client_id, instance.client_secret, request.query.code, instance.url)
     .then(resp=> {
         response.cookie('access_token',resp);
