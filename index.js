@@ -16,6 +16,9 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+
 var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
@@ -86,8 +89,6 @@ app.get('/callback',function(request, response) {
 });
 
 app.post('/instance',function(request, response) {
-    var bodyParser = require('body-parser');
-    app.use(bodyParser.urlencoded({extended: true}));
     base_url = 'http://' + request.body.instance_name;
     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
       .then(resp=> {
