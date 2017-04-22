@@ -1,12 +1,12 @@
 var express = require('express');
 var app = express();
 
-var id;
-var client_id; // = '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
-var client_secret; //  = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
+// var id;
+// var client_id; // = '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
+// var client_secret; //  = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
 var redirect_uri = 'https://mastodeck.herokuapp.com/callback';
 var access_token;
-var base_url; //  = 'https://rikadon.club';
+//var base_url; //  = 'https://rikadon.club';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -28,7 +28,7 @@ app.get('/', function(request, response) {
     if(!request.cookies.instance){
         response.render('pages/instanceselect.ejs');
     }else{
-        if(!access_token) {
+        if(!request.cookies.access_token) {
             console.log('【erro?】access token is null');
             Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp),error=> console.log(error))
         } else {
@@ -86,8 +86,10 @@ app.get('/', function(request, response) {
 });
 
 app.get('/callback',function(request, response) {
-    Masto.getAccessToken(client_id, client_secret, request.query.code, base_url).then(resp=> access_token=resp,error=> console.log(error));
-    console.log('【erro?】access token set : ' + access_token);
+    var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
+    var instance = instances[request.cookies.instance];
+    Masto.getAccessToken(instance.client_id, instance.client_secret, request.query.code, instance.url).then(resp=> response.cookie('access_token',resp),error=> console.log(error));
+    console.log('【erro?】access token set : ');
     response.redirect('https://mastodeck.herokuapp.com/');
 });
 
