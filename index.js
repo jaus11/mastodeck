@@ -20,7 +20,7 @@ var Masto = require('mastodon-api')
 
 app.get('/', function(request, response) {
     if((!client_id)&&(!client_secret)){
-        response.redirect('https://mastodeck.herokuapp.com/instance');
+        response.render('pages/instanceselect.ejs');
     }else{
         if(!access_token) {
             console.log('【erro?】access token is null');
@@ -85,14 +85,15 @@ app.get('/callback',function(request, response) {
     response.redirect('https://mastodeck.herokuapp.com/');
 });
 
-app.get('/instance',function(request, response) {
-    base_url = 'http://' + request.query.instance_name;
+app.post('/instance',function(request, response) {
+    base_url = 'http://' + request.body.instance_name;
     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
       .then(resp=> {
           id = resp.id;
           client_id = resp.client_id;
           client_secret = resp.client_secret;
       });
+    Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
 });
 
 app.listen(app.get('port'), function() {
