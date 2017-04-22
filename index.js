@@ -114,6 +114,7 @@ app.post('/instance',function(request, response) {
           },error=> console.log(error));
         instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
         var instance = instances[instance_name];
+        console.log(instance);
         Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
           .then(resp=> response.redirect(resp),error=> console.log(error))
     }
