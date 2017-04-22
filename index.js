@@ -1,12 +1,7 @@
 var express = require('express');
 var app = express();
 
-// var id;
-// var client_id; // = '50afd9f5ebea8985a144b6e7a5bd8928ab57cda7787e8aec8795189f37799e05';
-// var client_secret; //  = 'b5ee6003e7af3ad9251975324b473e96d9575673fd93d8354196f25fbcde3faf';
 var redirect_uri = 'https://mastodeck.herokuapp.com/callback';
-var access_token;
-//var base_url; //  = 'https://rikadon.club';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -33,7 +28,7 @@ app.get('/', function(request, response) {
             var jsonfile = require('jsonfile');
             var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
             var instance = instances[request.cookies.instance];
-            Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+            Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', redirect_uri)
               .then(resp=> response.redirect(resp),error=> console.log(error))
         } else {
             var M = new Masto({
@@ -93,16 +88,18 @@ app.get('/callback',function(request, response) {
     var jsonfile = require('jsonfile');
     var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     var instance = instances[request.cookies.instance];
-    console.log(instance.client_id);
-    console.log(instance.client_secret);
-    console.log(request.query.code);
-    console.log(instance.url);
     Masto.getAccessToken(instance.client_id, instance.client_secret, request.query.code, instance.url)
     .then(resp=> {
         response.cookie('access_token',resp);
         console.log('【erro?】access token set');
         response.redirect('https://mastodeck.herokuapp.com/');
-    },error=> console.log(error));
+    },error=> {
+        console.log(error)
+        console.log(instance.client_id);
+        console.log(instance.client_secret);
+        console.log(request.query.code);
+        console.log(instance.url);
+    });
 });
 
 app.post('/instance',function(request, response) {
@@ -114,7 +111,7 @@ app.post('/instance',function(request, response) {
     }else{
         base_url = 'https://' + instance_name;
         response.cookie('instance',instance_name);
-        Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+        Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', redirect_uri)
           .then(resp=> {
               var instance = {
                   [instance_name]: {
@@ -125,7 +122,7 @@ app.post('/instance',function(request, response) {
                   }
               };
               jsonfile.writeFileSync('public/token.json',instance,{encoding: 'utf-8'});
-              Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+              Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
                 .then(resp=> response.redirect(resp),error=> console.log(error))
           },error=> console.log(error));
     }
