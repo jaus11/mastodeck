@@ -94,10 +94,13 @@ app.get('/callback',function(request, response) {
 app.post('/instance',function(request, response) {
     var instance;
     var jsonfile = require('jsonfile');
+    var instances;
     jsonfile.readFile('public/token.json', function(err, obj) {
-        instance = obj[request.body.instance_name];
+        instances = obj;
     });
-    if(!instance){
+    if(request.body.instance_name in instances){
+        response.redirect('https://mastodeck.herokuapp.com/');
+    }else{
         base_url = 'https://' + request.body.instance_name;
         response.cookie('instance',request.body.instance_name);
         Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
@@ -117,8 +120,6 @@ app.post('/instance',function(request, response) {
         });
         Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
           .then(resp=> response.redirect(resp),error=> console.log(error))
-    }else{
-        response.redirect('https://mastodeck.herokuapp.com/');
     }
 });
 
