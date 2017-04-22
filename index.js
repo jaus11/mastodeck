@@ -90,6 +90,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/callback',function(request, response) {
+    var jsonfile = require('jsonfile');
     var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     console.log(instances);
     var instance = instances[request.cookies.instance];
