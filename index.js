@@ -92,7 +92,6 @@ app.get('/callback',function(request, response) {
 });
 
 app.post('/instance',function(request, response) {
-    var instance;
     var jsonfile = require('jsonfile');
     var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     var instance_name = request.body.instance_name;
@@ -112,7 +111,8 @@ app.post('/instance',function(request, response) {
               };
               jsonfile.writeFileSync('public/token.json',instance_data,{encoding: 'utf-8'});
           },error=> console.log(error));
-        var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
+        instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
+        var instance = instances[instance_name];
         Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
           .then(resp=> response.redirect(resp),error=> console.log(error))
     }
