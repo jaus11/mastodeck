@@ -92,6 +92,7 @@ app.post('/instance',function(request, response) {
     base_url = 'http://' + request.body.instance_name;
     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
       .then(resp=> {
+          console.log(resp);
           id = resp.id;
           client_id = resp.client_id;
           client_secret = resp.client_secret;
