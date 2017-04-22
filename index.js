@@ -109,6 +109,7 @@ app.post('/instance',function(request, response) {
                   client_id: resp.client_id,
                   client_secret: resp.client_secret
               };
+              console.log('【CHECK】 : ' + instance_data[request.body.instance_name].url);
               jsonfile.writeFile('public/token.json',instance_data,{encoding: 'utf-8'});
           },error=> console.log(error));
         jsonfile.readFile('public/token.json', function(err, obj) {
