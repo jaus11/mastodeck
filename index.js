@@ -30,7 +30,7 @@ app.get('/', function(request, response) {
     }else{
         if(!access_token) {
             console.log('【erro?】access token is null');
-            Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
+            Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp),error=> console.log(error))
         } else {
             var M = new Masto({
                 access_token: access_token,
@@ -92,23 +92,40 @@ app.get('/callback',function(request, response) {
 });
 
 app.post('/instance',function(request, response) {
-    base_url = 'https://' + request.body.instance_name;
-    response.cookie('instance',request.body.instance_name);
+    var instance;
     var jsonfile = require('jsonfile');
-    Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
-      .then(resp=> {
-          jsonfile.writeFile('public/token.json',{
-              instance: {
-                  instance_url: base_url,
-                  id: resp.id,
-                  client_id: resp.client_id,
-                  client_secret: resp.client_secret
-              }
-          },{
-              encoding: 'utf-8'
-          });
-      },error=> console.log(error));
-    Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
+    jsonfile.readFile('public/token.json', function(err, obj) {
+        instance = obj.filter(function(item, index){
+            if(item.name==request.body.instance_name) return true;
+        });
+    });
+    if(!instance){
+        base_url = 'https://' + request.body.instance_name;
+        response.cookie('instance',request.body.instance_name);
+        Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+          .then(resp=> {
+              jsonfile.writeFile('public/token.json',{
+                  instance: {
+                      name: request.body.instance_name,
+                      url: base_url,
+                      id: resp.id,
+                      client_id: resp.client_id,
+                      client_secret: resp.client_secret
+                  }
+              },{
+                  encoding: 'utf-8'
+              });
+          },error=> console.log(error));
+        jsonfile.readFile('public/token.json', function(err, obj) {
+            instance = obj.filter(function(item, index){
+                if(item.name==request.body.instance_name) return true;
+            });
+        });
+        Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
+          .then(resp=> response.redirect(resp),error=> console.log(error))
+    }else{
+        response.redirect('https://mastodeck.herokuapp.com/');
+    }
 });
 
 app.listen(app.get('port'), function() {
