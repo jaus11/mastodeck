@@ -99,7 +99,7 @@ app.post('/instance',function(request, response) {
         instances = obj;
     });
     var instance_name = request.body.instance_name;
-    if(instance_name in instances){
+    if(instance_name in instances == true){
         response.redirect('https://mastodeck.herokuapp.com/');
     }else{
         base_url = 'https://' + instance_name;
