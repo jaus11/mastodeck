@@ -94,10 +94,7 @@ app.get('/callback',function(request, response) {
 app.post('/instance',function(request, response) {
     var instance;
     var jsonfile = require('jsonfile');
-    var instances;
-    jsonfile.readFile('public/token.json', function(err, obj) {
-        instances = obj;
-    });
+    var instances = jsonfile.readFile('public/token.json',{encoding: 'utf-8'});
     var instance_name = request.body.instance_name;
     if(instances[instance_name]){
         response.redirect('https://mastodeck.herokuapp.com/');
