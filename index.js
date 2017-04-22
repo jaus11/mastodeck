@@ -96,6 +96,7 @@ app.post('/instance',function(request, response) {
     var jsonfile = require('jsonfile');
     var instances = jsonfile.readFile('public/token.json',{encoding: 'utf-8'});
     var instance_name = request.body.instance_name;
+    console.log(instances.omochi.umai);
     if(instances[instance_name]){
         response.redirect('https://mastodeck.herokuapp.com/');
     }else{
