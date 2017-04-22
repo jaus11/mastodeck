@@ -94,6 +94,7 @@ app.get('/callback',function(request, response) {
 app.post('/instance',function(request, response) {
     base_url = 'https://' + request.body.instance_name;
     response.cookie('instance',request.body.instance_name);
+    var jsonfile = require('jsonfile');
     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
       .then(resp=> {
           jsonfile.writeFile('public/token.json',{
