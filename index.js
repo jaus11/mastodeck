@@ -96,7 +96,7 @@ app.post('/instance',function(request, response) {
           id = resp.id;
           client_id = resp.client_id;
           client_secret = resp.client_secret;
-      });
+      },error=> console.log(error));
     Masto.getAuthorizationUrl(client_id, client_secret, base_url, 'read write follow', 'https://mastodeck.herokuapp.com/callback').then(resp=> response.redirect(resp))
 });
 
