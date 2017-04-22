@@ -98,25 +98,25 @@ app.post('/instance',function(request, response) {
     jsonfile.readFile('public/token.json', function(err, obj) {
         instances = obj;
     });
-    if(request.body.instance_name in instances){
+    var instance_name = request.body.instance_name;
+    if(instance_name in instances){
         response.redirect('https://mastodeck.herokuapp.com/');
     }else{
-        base_url = 'https://' + request.body.instance_name;
-        response.cookie('instance',request.body.instance_name);
+        base_url = 'https://' + instance_name;
+        response.cookie('instance',instance_name);
         Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', 'https://mastodeck.herokuapp.com/callback')
           .then(resp=> {
               var instance_data = {};
-              instance_data[request.body.instance_name] = {
+              instance_data[instance_name] = {
                   url: base_url,
                   id: resp.id,
                   client_id: resp.client_id,
                   client_secret: resp.client_secret
               };
-              console.log('【CHECK】 : ' + instance_data[request.body.instance_name].url);
               jsonfile.writeFile('public/token.json',instance_data,{encoding: 'utf-8'});
           },error=> console.log(error));
         jsonfile.readFile('public/token.json', function(err, obj) {
-            instance = obj[request.body.instance_name];
+            instance = obj[instance_name];
         });
         Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', 'https://mastodeck.herokuapp.com/callback')
           .then(resp=> response.redirect(resp),error=> console.log(error))
