@@ -190,7 +190,7 @@ app.post('/instance',function(request, response) {
     //         //   };
     //         //   jsonfile.writeFileSync('public/token.json',instance,{encoding: 'utf-8'});
     //       },error=> console.log(error));
-    }
+    //}
 });
 
 app.listen(app.get('port'), function() {
