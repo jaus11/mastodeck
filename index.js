@@ -22,6 +22,11 @@ var Masto = require('mastodon-api')
 var pg = require('pg');
 var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cbe9d847c7a3ef11712481ab69088@ec2-174-129-227-116.compute-1.amazonaws.com:5432/d9di7k3e04uhkm'
 
+var crypto = require("crypto");
+var password = "mastodeck";
+var cipher = crypto.createCipher('aes192', passowrd);
+var decipher = crypto.createDecipher('aes192', passowrd);
+
 // var passport = require('passport');
 // var MastodonStrategy = require('passport-mastodon').Strategy;
 // app.use(passport.initialize());
@@ -74,8 +79,10 @@ app.get('/', function(request, response) {
                 });
             });
         } else {
+            decipher.update(request.cookies.access_token, 'hex', 'utf8');
+            var dec = decipher.final('utf8');
             var M = new Masto({
-                access_token: request.cookies.access_token,
+                access_token: dec,
                 timeout_ms: 60 * 1000,
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
@@ -145,7 +152,9 @@ app.get('/callback', function(request, response) {
             Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url, redirect_uri)
                 .then(resp=> {
                     client.end()
-                    response.cookie('access_token',resp)
+                    cipher.update(resp, 'utf8', 'hex')
+                    var cipheredText = cipher.final('hex')
+                    response.cookie('access_token',cipheredText)
                     response.redirect('https://mastodeck.herokuapp.com/')
                 },error=> {
                     console.log(error)

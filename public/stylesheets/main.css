@@ -25,6 +25,14 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+#menu {
+    width: 10%;
+    height: 100%;
+    background-color: black;
+    display: inline-block;
+    vertical-align: top;
+}
+
 #column {
     width: 30%;
     height: 100%;
