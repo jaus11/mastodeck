@@ -80,6 +80,10 @@ app.get('/', function(request, response) {
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
 
+            M.post('statuses', {status: 'test from node.js+express'}, function(err, data, res){
+                if(!err) console.log(res)
+            });
+
             var toots_public = []
             var toots_home = []
             var toots_local = []
@@ -137,7 +141,6 @@ app.get('/callback', function(request, response) {
             if(err) {
                 return console.error('error running query', err);
             }
-            console.log('【CALLBACKED】');
             Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url, redirect_uri)
                 .then(resp=> {
                     client.end()
