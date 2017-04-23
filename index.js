@@ -32,7 +32,7 @@ app.get('/', function(request, response) {
               .then(resp=> response.redirect(resp),error=> console.log(error))
         } else {
             var M = new Masto({
-                access_token: access_token,
+                access_token: request.cookies.access_token,
                 timeout_ms: 60 * 1000,
                 api_url: base_url + '/api/v1/',
             })
