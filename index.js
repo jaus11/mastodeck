@@ -78,7 +78,7 @@ app.get('/', function(request, response) {
             });
         } else {
             var M = new Masto({
-                access_token: decode(request.cookies.access_token),
+                access_token: request.cookies.access_token,
                 timeout_ms: 60 * 1000,
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
@@ -148,7 +148,7 @@ app.get('/callback', function(request, response) {
             Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url, redirect_uri)
                 .then(resp=> {
                     client.end()
-                    response.cookie('access_token',code(resp))
+                    response.cookie('access_token',resp)
                     response.redirect('https://mastodeck.herokuapp.com/')
                 },error=> {
                     console.log(error)
