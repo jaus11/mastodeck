@@ -25,6 +25,12 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
 #menu {
     padding: 0px 0px 0px;
     width: 5%;
