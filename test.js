@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 const Mastodon = require('mastodon-api')
 
-let baseUrl = 'https://rikadon.club'
+let baseUrl = 'https://mstdn.jp'
 let redirect_uri = 'https://mastodeck.herokuapp.com/callback'
 var clientId
 var clientSecret
