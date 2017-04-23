@@ -16,7 +16,8 @@
     "oauth": "0.9.15",
     "cookie-parser": "1.4.3",
     "body-parser": "1.17.1",
-    "jsonfile": "2.4.0"
+    "jsonfile": "2.4.0",
+    "pg": "latest"
   },
   "repository": {
     "type": "git",

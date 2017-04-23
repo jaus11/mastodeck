@@ -19,17 +19,31 @@ app.use(cookieParser());
 
 var Masto = require('mastodon-api')
 
+var pg = require('pg');
+var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cbe9d847c7a3ef11712481ab69088@ec2-174-129-227-116.compute-1.amazonaws.com:5432/d9di7k3e04uhkm'
+var client = new pg.Client(conString);
+
 app.get('/', function(request, response) {
     if(!request.cookies.instance){
         response.render('pages/instanceselect.ejs');
     }else{
         if(!request.cookies.access_token) {
             console.log('【erro?】access token is null');
-            var jsonfile = require('jsonfile');
-            var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
-            var instance = instances[request.cookies.instance];
-            Masto.getAuthorizationUrl(instance.client_id, instance.client_secret, instance.url, 'read write follow', redirect_uri)
-              .then(resp=> response.redirect(resp),error=> console.log(error))
+            // var jsonfile = require('jsonfile');
+            // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
+            // var instance = instances[request.cookies.instance];
+            client.connect(function(err) {
+                if(err) {
+                    return console.error('could not connect to postgres', err);
+                }
+                client.query('select * from data where instance_name =\'' + request.cookies.instance + '\';', function(err, result) {
+                    if(err) {
+                        return console.error('error running query', err);
+                    }
+                    Masto.getAuthorizationUrl(result.row[0].client_id, result.row[0].client_secret, result.row[0].url, 'read write follow', redirect_uri)
+                      .then(resp=> response.redirect(resp),error=> console.log(error))
+                });
+            });
         } else {
             var M = new Masto({
                 access_token: request.cookies.access_token,
@@ -85,45 +99,97 @@ app.get('/', function(request, response) {
 });
 
 app.get('/callback',function(request, response) {
-    var jsonfile = require('jsonfile');
-    var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
-    var instance = instances[request.cookies.instance];
-    Masto.getAccessToken(instance.client_id, instance.client_secret, request.query.code, instance.url)
-    .then(resp=> {
-        response.cookie('access_token',resp);
-        response.redirect('https://mastodeck.herokuapp.com/');
-    },error=> {
-        console.log(error)
-        console.log(instance.client_id);
-        console.log(instance.client_secret);
-        console.log(request.query.code);
-        console.log(instance.url);
+    // var jsonfile = require('jsonfile');
+    // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
+    // var instance = instances[request.cookies.instance];
+    client.connect(function(err) {
+        if(err) {
+            return console.error('could not connect to postgres', err);
+        }
+        client.query('select * from data where instance_name =\'' + request.cookies.instance + '\';', function(err, result) {
+            if(err) {
+                return console.error('error running query', err);
+            }
+            Masto.getAccessToken(result.row[0].client_id, result.row[0].client_secret, request.query.code, result.row[0].url)
+                .then(resp=> {
+                    client.end()
+                    response.cookie('access_token',resp)
+                    response.redirect('https://mastodeck.herokuapp.com/')
+                },error=> {
+                    console.log(error)
+                });
+        });
     });
 });
 
 app.post('/instance',function(request, response) {
-    var jsonfile = require('jsonfile');
-    var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
+    // var jsonfile = require('jsonfile');
+    // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     var instance_name = request.body.instance_name;
-    if(instances[instance_name]){
-        response.redirect('https://mastodeck.herokuapp.com/');
-    }else{
-        base_url = 'https://' + instance_name;
-        response.cookie('instance',instance_name);
-        Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', redirect_uri)
-          .then(resp=> {
-              var instance = {
-                  [instance_name]: {
-                      url: base_url,
-                      id: resp.id,
-                      client_id: resp.client_id,
-                      client_secret: resp.client_secret
-                  }
-              };
-              jsonfile.writeFileSync('public/token.json',instance,{encoding: 'utf-8'});
-              Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
-                .then(resp=> response.redirect(resp),error=> console.log(error))
-          },error=> console.log(error));
+    response.cookie('instance',instance_name);
+    client.connect(function(err) {
+        if(err) {
+            return console.error('could not connect to postgres', err);
+        }
+        client.query('select count(*) from data where instance_name = \'' + request.body.instance_name + '\';', function(err, result) {
+            if(err) {
+                return console.error('error running query', err);
+            } else if(result==0) {
+                base_url = 'https://' + instance_name;
+                Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', redirect_uri)
+                .then(resp=> {
+                    client.connect(function(err) {
+                        if(err) {
+                            return console.error('could not connect to postgres', err);
+                        }
+                        var qstr = "insert into data (instance_name,url,id,client_id,client_secret) values($1, $2, $3, $4, $5);"
+                        client.query(qstr, [instance_name, base_url, resp.id, client_id, client_secret])
+                        query.on('end', function(row,err) {
+                            Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
+                                .then(resp=> response.redirect(resp),error=> console.log(error))
+                        });
+                        query.on('error', function(error) {
+                            console.log("ERROR!");
+                        });
+                    });
+                  },error=> console.log(error));
+            } else {
+                response.redirect('https://mastodeck.herokuapp.com/');
+            }
+        });
+
+    });
+    // if(instances[instance_name]){
+    //     response.redirect('https://mastodeck.herokuapp.com/');
+    // }else{
+    //     base_url = 'https://' + instance_name;
+    //     response.cookie('instance',instance_name);
+    //     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', redirect_uri)
+    //     .then(resp=> {
+    //         client.connect(function(err) {
+    //             if(err) {
+    //                 return console.error('could not connect to postgres', err);
+    //             }
+    //             var qstr = "insert into data (instance_name,url,id,client_id,client_secret) values($1, $2, $3, $4, $5);"
+    //             client.query(qstr, [instance_name, base_url, resp.id, client_id, client_secret])
+    //             query.on('end', function(row,err) {
+    //                 Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
+    //                     .then(resp=> response.redirect(resp),error=> console.log(error))
+    //             });
+    //             query.on('error', function(error) {
+    //                 console.log("ERROR!");
+    //             });
+    //         });
+    //         // var instance = {
+    //         //       [instance_name]: {
+    //         //           url: base_url,
+    //         //           id: resp.id,
+    //         //           client_id: resp.client_id,
+    //         //           client_secret: resp.client_secret
+    //         //       }
+    //         //   };
+    //         //   jsonfile.writeFileSync('public/token.json',instance,{encoding: 'utf-8'});
+    //       },error=> console.log(error));
     }
 });
 
