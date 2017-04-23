@@ -29,7 +29,7 @@ app.get('/', function(request, response) {
         })
 });
 
-app.get('/callback', function(request, response)) {
+app.get('/callback', function(request, response) {
     Mastodon.getAccessToken(clientId, clientSecret, request.query.code, baseUrl)
         .catch(err => console.error(err))
         .then(accessToken => {
