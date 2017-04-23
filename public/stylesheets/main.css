@@ -41,12 +41,13 @@ body {
 }
 
 #columns {
-    width: 1000px;
-    height: 1200px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    width:90%;
+    white-space:nowrap;
     background-color: black;
     display: inline-block;
     vertical-align: top;
-    overflow: scroll;
 }
 
 #column {
