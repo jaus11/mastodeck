@@ -108,7 +108,6 @@ app.get('/', function(request, response) {
                         profile_img : data[key].account.avatar,
                         content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
                     };
-                    console.log("test");
                     toots_home.push(toot);
                 }
             })
@@ -124,6 +123,7 @@ app.get('/', function(request, response) {
                     toots_local.push(toot);
                 }
             })
+            console.log(toots_home);
             response.locals.toots_home = toots_home;
             response.locals.toots_public = toots_public;
             response.locals.toots_local = toots_local;
