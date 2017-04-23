@@ -24,8 +24,6 @@ var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cb
 
 var crypto = require("crypto");
 var password = "mastodeck";
-var cipher = crypto.createCipher('aes192', password);
-var decipher = crypto.createDecipher('aes192', password);
 
 // var passport = require('passport');
 // var MastodonStrategy = require('passport-mastodon').Strategy;
@@ -79,6 +77,7 @@ app.get('/', function(request, response) {
                 });
             });
         } else {
+            var decipher = crypto.createDecipher('aes192', password);
             decipher.update(request.cookies.access_token, 'hex', 'utf8');
             var dec = decipher.final('utf8');
             var M = new Masto({
@@ -152,6 +151,7 @@ app.get('/callback', function(request, response) {
             Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url, redirect_uri)
                 .then(resp=> {
                     client.end()
+                    var cipher = crypto.createCipher('aes192', password);
                     cipher.update(resp, 'utf8', 'hex')
                     var cipheredText = cipher.final('hex')
                     response.cookie('access_token',cipheredText)
