@@ -42,10 +42,6 @@ app.get('/', function(request, response) {
         response.render('pages/instanceselect.ejs');
     }else{
         if(!request.cookies.access_token) {
-            console.log('【erro?】access token is null');
-            // var jsonfile = require('jsonfile');
-            // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
-            // var instance = instances[request.cookies.instance];
             var client = new pg.Client(conString);
             client.connect(function(err) {
                 if(err) {
@@ -132,9 +128,6 @@ app.get('/', function(request, response) {
 });
 
 app.get('/callback', function(request, response) {
-    // var jsonfile = require('jsonfile');
-    // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
-    // var instance = instances[request.cookies.instance];
     var client = new pg.Client(conString);
     client.connect(function(err) {
         if(err) {
@@ -144,6 +137,7 @@ app.get('/callback', function(request, response) {
             if(err) {
                 return console.error('error running query', err);
             }
+            console.log('【CALLBACKED】');
             Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url)
                 .then(resp=> {
                     client.end()
