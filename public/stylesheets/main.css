@@ -44,6 +44,7 @@ body {
     overflow-x:auto;
     overflow-y:hidden;
     width:90%;
+    white-space:nowrap;
     background-color: black;
     display: inline-block;
     vertical-align: top;
@@ -70,6 +71,7 @@ body {
     height: auto;
     background-color: gray;
     margin: 5px;
+    white-space:normal;
     word-wrap: break-word;
 }
 
