@@ -132,10 +132,10 @@ app.post('/instance',function(request, response) {
             return console.error('could not connect to postgres', err);
         }
         client.query('select count(*) as num from data where instance_name = \'' + request.body.instance_name + '\';', function(err, result) {
-            console.log(result.num=='0');
+            console.log(result);
             if(err) {
                 return console.error('error running query', err);
-            } else if(result=='0') {
+            } else if(result.num=='0') {
                 base_url = 'https://' + instance_name;
                 Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', redirect_uri)
                 .then(resp=> {
