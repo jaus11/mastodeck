@@ -41,8 +41,8 @@ body {
 }
 
 #columns {
-    width: 90%;
-    height: 100%;
+    width: 1000px;
+    height: 1200px;
     background-color: black;
     display: inline-block;
     vertical-align: top;
