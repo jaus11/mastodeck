@@ -23,6 +23,7 @@ var pg = require('pg');
 var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cbe9d847c7a3ef11712481ab69088@ec2-174-129-227-116.compute-1.amazonaws.com:5432/d9di7k3e04uhkm'
 
 var crypto = require("crypto");
+var jsonfile = require("jsonfile");
 
 app.get('/', function(request, response) {
     if(!request.cookies.instance){
@@ -53,20 +54,15 @@ app.get('/', function(request, response) {
             var toots_home = []
             var toots_local = []
 
-            const listener = M.stream('streaming/user')
-
-            listener.on('message', msg => console.log(msg))
-
-            listener.on('error', err => console.log(err))
-
             M.get('timelines/public', function(err, data, res) {
                 if(!err){
                     for (key in data) {
                         var toot = {
                             id : data[key].account.username,
                             profile_img : data[key].account.avatar,
-                            content : data[key].content//.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                            content : data[key].content
                         };
+                        jsonfile.writeFileSync("public/test.json",data[key],{encoding: utf-8});
                         toots_public.push(toot);
                     }
                     response.locals.toots_public = toots_public;
@@ -76,7 +72,7 @@ app.get('/', function(request, response) {
                                 var toot = {
                                     id : data[key].account.username,
                                     profile_img : data[key].account.avatar,
-                                    content : data[key].content//.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                                    content : data[key].content
                                 };
                                 toots_home.push(toot);
                             }
@@ -87,7 +83,7 @@ app.get('/', function(request, response) {
                                         var toot = {
                                             id : data[key].account.username,
                                             profile_img : data[key].account.avatar,
-                                            content : data[key].content//.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                                            content : data[key].content
                                         };
                                         toots_local.push(toot);
                                     }
