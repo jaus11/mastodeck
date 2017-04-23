@@ -59,7 +59,8 @@
 }
 
 #cell {
-    height: 300px;
+    width: 300px;
+    height: auto;
     background-color: gray;
     margin: 5px;
 }
