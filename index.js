@@ -152,11 +152,8 @@ app.get('/callback', passport.authenticate('mastodon', { failureRedirect: '/logi
     //
     //     });
     // });
-    passport.authenticate('mastodon', { failureRedirect: '/login' }),
-    function(req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('/');
-    });
+    response.redirect('/');
+  });
 });
 
 app.get('/auth', passport.authenticate('mastodon'));
