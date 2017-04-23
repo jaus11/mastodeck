@@ -24,8 +24,8 @@ var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cb
 
 var crypto = require("crypto");
 var password = "mastodeck";
-var cipher = crypto.createCipher('aes192', passoword);
-var decipher = crypto.createDecipher('aes192', passoword);
+var cipher = crypto.createCipher('aes192', password);
+var decipher = crypto.createDecipher('aes192', password);
 
 // var passport = require('passport');
 // var MastodonStrategy = require('passport-mastodon').Strategy;
