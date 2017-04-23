@@ -91,7 +91,6 @@ app.get('/callback',function(request, response) {
     Masto.getAccessToken(instance.client_id, instance.client_secret, request.query.code, instance.url)
     .then(resp=> {
         response.cookie('access_token',resp);
-        console.log('【erro?】access token set');
         response.redirect('https://mastodeck.herokuapp.com/');
     },error=> {
         console.log(error)
