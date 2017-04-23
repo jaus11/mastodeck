@@ -17,7 +17,9 @@
     "cookie-parser": "1.4.3",
     "body-parser": "1.17.1",
     "jsonfile": "2.4.0",
-    "pg": "latest"
+    "pg": "latest",
+    "passport": "latest",
+    "passport-mastodon": "latest"
   },
   "repository": {
     "type": "git",
