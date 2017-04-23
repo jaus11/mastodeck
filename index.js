@@ -69,7 +69,7 @@ app.get('/', function(request, response) {
                             });
                         }
                     ));
-                    passport.authenticate('mastodon');
+                    response.redirect('/auth');
                 });
             });
         } else {
@@ -152,6 +152,8 @@ app.get('/callback', passport.authenticate('mastodon', { failureRedirect: '/logi
     // });
     response.redirect('/');
 });
+
+app.get('/auth', passport.authenticate('mastodon'));
 
 app.post('/instance',function(request, response) {
     // var jsonfile = require('jsonfile');
