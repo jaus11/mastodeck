@@ -22,26 +22,26 @@ var Masto = require('mastodon-api')
 var pg = require('pg');
 var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cbe9d847c7a3ef11712481ab69088@ec2-174-129-227-116.compute-1.amazonaws.com:5432/d9di7k3e04uhkm'
 
-var passport = require('passport');
-var MastodonStrategy = require('passport-mastodon').Strategy;
-app.use(passport.initialize());
-app.use(passport.session());
+// var passport = require('passport');
+// var MastodonStrategy = require('passport-mastodon').Strategy;
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-        done(err, user);
-    });
-});
+// passport.serializeUser(function(user, done) {
+//     done(null, user.id);
+// });
+//
+// passport.deserializeUser(function(id, done) {
+//     User.findById(id, function(err, user) {
+//         done(err, user);
+//     });
+// });
 
 app.get('/', function(request, response) {
     if(!request.cookies.instance){
         response.render('pages/instanceselect.ejs');
     }else{
-        if(!passport.session.accessToken) {
+        if(!request.cookies.access_token) {
             console.log('【erro?】access token is null');
             // var jsonfile = require('jsonfile');
             // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
@@ -55,28 +55,31 @@ app.get('/', function(request, response) {
                     if(err) {
                         return console.error('error running query', err);
                     }
-                    // Masto.getAuthorizationUrl(result.rows[0].client_id, result.rows[0].client_secret, result.rows[0].url, 'read write follow', redirect_uri)
-                    //   .then(resp=> response.redirect(resp),error=> console.log(error))
-                    passport.use(new MastodonStrategy({
-                        provider: request.cookies.instance,
-                        domain: request.cookies.instance,
-                        clientID: result.rows[0].client_id,
-                        clientSecret: result.rows[0].client_secret,
-                        callbackURL: redirect_uri
-                        },
-                        function(accessToken, refreshToken, profile, cb) {
-                            passport.session.accessToken = accessToken;
-                            User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-                                return cb(err, user);
-                            });
-                        }
-                    ));
-                    response.redirect('/auth');
+                    Masto.getAuthorizationUrl(result.rows[0].client_id, result.rows[0].client_secret, result.rows[0].url, 'read write follow', redirect_uri)
+                      .then(resp=> response.redirect(resp),error=> console.log(error))
+
+                    //passport ver.
+
+                    // passport.use(new MastodonStrategy({
+                    //     provider: request.cookies.instance,
+                    //     domain: request.cookies.instance,
+                    //     clientID: result.rows[0].client_id,
+                    //     clientSecret: result.rows[0].client_secret,
+                    //     callbackURL: redirect_uri
+                    //     },
+                    //     function(accessToken, refreshToken, profile, cb) {
+                    //         passport.session.accessToken = accessToken;
+                    //         User.findOrCreate({ exampleId: profile.id }, function (err, user) {
+                    //             return cb(err, user);
+                    //         });
+                    //     }
+                    // ));
+                    // response.redirect('/auth');
                 });
             });
         } else {
             var M = new Masto({
-                access_token: passport.session.accessToken,
+                access_token: request.cookies.access_token,
                 timeout_ms: 60 * 1000,
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
@@ -128,38 +131,41 @@ app.get('/', function(request, response) {
     }
 });
 
-app.get('/callback', passport.authenticate('mastodon', { failureRedirect: '/login' }), function(request, response) {
+app.get('/callback', function(request, response) {
     // var jsonfile = require('jsonfile');
     // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     // var instance = instances[request.cookies.instance];
-    // var client = new pg.Client(conString);
-    // client.connect(function(err) {
-    //     if(err) {
-    //         return console.error('could not connect to postgres', err);
-    //     }
-    //     client.query('select * from data where instance_name =\'' + request.cookies.instance + '\';', function(err, result) {
-    //         if(err) {
-    //             return console.error('error running query', err);
-    //         }
-    //         // Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url)
-    //         //     .then(resp=> {
-    //         //         client.end()
-    //         //         response.cookie('access_token',resp)
-    //         //         response.redirect('https://mastodeck.herokuapp.com/')
-    //         //     },error=> {
-    //         //         console.log(error)
-    //         //     });
-    //
-    //     });
-    // });
-    response.redirect('/');
+    var client = new pg.Client(conString);
+    client.connect(function(err) {
+        if(err) {
+            return console.error('could not connect to postgres', err);
+        }
+        client.query('select * from data where instance_name =\'' + request.cookies.instance + '\';', function(err, result) {
+            if(err) {
+                return console.error('error running query', err);
+            }
+            Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url)
+                .then(resp=> {
+                    client.end()
+                    response.cookie('access_token',resp)
+                    response.redirect('https://mastodeck.herokuapp.com/')
+                },error=> {
+                    console.log(error)
+                });
+
+        });
+    });
 });
+
+//passport ver.
+
+// app.get('/callback', passport.authenticate('mastodon', { failureRedirect: '/login' }), function(request, response) {
+//     response.redirect('/');
+// });
 
 app.get('/auth', passport.authenticate('mastodon'));
 
 app.post('/instance',function(request, response) {
-    // var jsonfile = require('jsonfile');
-    // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     var instance_name = request.body.instance_name;
     response.cookie('instance',instance_name);
     var client = new pg.Client(conString);
@@ -182,21 +188,24 @@ app.post('/instance',function(request, response) {
                         var qstr = "insert into data (instance_name,url,id,client_id,client_secret) values($1, $2, $3, $4, $5);"
                         var query = client2.query(qstr, [instance_name, base_url, resp.id, resp.client_id, resp.client_secret])
                         query.on('end', function(row,err) {
-                            // Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
-                            //     .then(resp=> response.redirect(resp),error=> console.log(error))
-                            passport.use(new MastodonStrategy({
-                                clientId: result.rows[0].client_id,
-                                clientSecret: result.rows[0].client_secret,
-                                callbackURL: redirect_uri
-                                },
-                                function(accessToken, refreshToken, profile, cb) {
-                                    passport.session.accessToken = accessToken;
-                                    User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-                                        return cb(err, user);
-                                    });
-                                }
-                            ));
-                            passport.authenticate('mastodon');
+                            Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
+                                .then(resp=> response.redirect(resp),error=> console.log(error))
+
+                            //passport ver.
+
+                            // passport.use(new MastodonStrategy({
+                            //     clientId: result.rows[0].client_id,
+                            //     clientSecret: result.rows[0].client_secret,
+                            //     callbackURL: redirect_uri
+                            //     },
+                            //     function(accessToken, refreshToken, profile, cb) {
+                            //         passport.session.accessToken = accessToken;
+                            //         User.findOrCreate({ exampleId: profile.id }, function (err, user) {
+                            //             return cb(err, user);
+                            //         });
+                            //     }
+                            // ));
+                            // passport.authenticate('mastodon');
                         });
                         query.on('error', function(error) {
                             console.log("ERROR!");
@@ -207,40 +216,7 @@ app.post('/instance',function(request, response) {
                 response.redirect('https://mastodeck.herokuapp.com/');
             }
         });
-
     });
-    // if(instances[instance_name]){
-    //     response.redirect('https://mastodeck.herokuapp.com/');
-    // }else{
-    //     base_url = 'https://' + instance_name;
-    //     response.cookie('instance',instance_name);
-    //     Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', redirect_uri)
-    //     .then(resp=> {
-    //         client.connect(function(err) {
-    //             if(err) {
-    //                 return console.error('could not connect to postgres', err);
-    //             }
-    //             var qstr = "insert into data (instance_name,url,id,client_id,client_secret) values($1, $2, $3, $4, $5);"
-    //             client.query(qstr, [instance_name, base_url, resp.id, client_id, client_secret])
-    //             query.on('end', function(row,err) {
-    //                 Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
-    //                     .then(resp=> response.redirect(resp),error=> console.log(error))
-    //             });
-    //             query.on('error', function(error) {
-    //                 console.log("ERROR!");
-    //             });
-    //         });
-    //         // var instance = {
-    //         //       [instance_name]: {
-    //         //           url: base_url,
-    //         //           id: resp.id,
-    //         //           client_id: resp.client_id,
-    //         //           client_secret: resp.client_secret
-    //         //       }
-    //         //   };
-    //         //   jsonfile.writeFileSync('public/token.json',instance,{encoding: 'utf-8'});
-    //       },error=> console.log(error));
-    //}
 });
 
 app.listen(app.get('port'), function() {
