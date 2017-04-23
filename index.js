@@ -123,7 +123,6 @@ app.get('/', function(request, response) {
                     toots_local.push(toot);
                 }
             })
-            response.locals.a = "aaa";
             response.locals.toots_home = toots_home;
             response.locals.toots_public = toots_public;
             response.locals.toots_local = toots_local;
