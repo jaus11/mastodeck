@@ -153,7 +153,6 @@ app.get('/callback', passport.authenticate('mastodon', { failureRedirect: '/logi
     //     });
     // });
     response.redirect('/');
-  });
 });
 
 app.get('/auth', passport.authenticate('mastodon'));
