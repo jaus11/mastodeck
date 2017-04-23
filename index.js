@@ -40,7 +40,7 @@ app.get('/', function(request, response) {
                     if(err) {
                         return console.error('error running query', err);
                     }
-                    Masto.getAuthorizationUrl(result.row[0].client_id, result.row[0].client_secret, result.row[0].url, 'read write follow', redirect_uri)
+                    Masto.getAuthorizationUrl(result.rows[0].client_id, result.rows[0].client_secret, result.rows[0].url, 'read write follow', redirect_uri)
                       .then(resp=> response.redirect(resp),error=> console.log(error))
                 });
             });
@@ -110,7 +110,7 @@ app.get('/callback',function(request, response) {
             if(err) {
                 return console.error('error running query', err);
             }
-            Masto.getAccessToken(result.row[0].client_id, result.row[0].client_secret, request.query.code, result.row[0].url)
+            Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url)
                 .then(resp=> {
                     client.end()
                     response.cookie('access_token',resp)
