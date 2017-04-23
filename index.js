@@ -56,13 +56,13 @@ app.get('/', function(request, response) {
 
             M.get('timelines/public', function(err, data, res) {
                 if(!err){
+                    jsonfile.writeFileSync("public/test.json",data,{encoding: 'utf-8', spaces: 2});
                     for (key in data) {
                         var toot = {
                             id : data[key].account.username,
                             profile_img : data[key].account.avatar,
                             content : data[key].content
                         };
-                        jsonfile.writeFileSync("public/test.json",data[key],{encoding: 'utf-8'});
                         toots_public.push(toot);
                     }
                     response.locals.toots_public = toots_public;
