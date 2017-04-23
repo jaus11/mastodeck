@@ -138,7 +138,7 @@ app.get('/callback', function(request, response) {
                 return console.error('error running query', err);
             }
             console.log('【CALLBACKED】');
-            Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, redirect_uri)
+            Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url, redirect_uri)
                 .then(resp=> {
                     client.end()
                     response.cookie('access_token',resp)
