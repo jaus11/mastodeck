@@ -133,6 +133,7 @@ app.post('/instance',function(request, response) {
         }
         client.query('select count(*) from data where instance_name = \'' + request.body.instance_name + '\';', function(err, result) {
             if(err) {
+                console.log(result)
                 return console.error('error running query', err);
             } else if(result==0) {
                 base_url = 'https://' + instance_name;
