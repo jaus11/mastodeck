@@ -80,9 +80,9 @@ app.get('/', function(request, response) {
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
 
-            M.post('statuses', {status: 'test from node.js+express'}, function(err, data, res){
-                if(err) console.log(res)
-            });
+            // M.post('statuses', {status: 'test from node.js+express'}, function(err, data, res){
+            //     if(err) console.log(res)
+            // });
 
             var toots_public = []
             var toots_home = []
