@@ -4,8 +4,8 @@ const Mastodon = require('mastodon-api')
 
 let baseUrl = 'https://mstdn-workers.com'
 let redirect_uri = 'https://mastodeck.herokuapp.com/callback'
-let clientId
-let clientSecret
+var clientId
+var clientSecret
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -33,6 +33,10 @@ app.get('/callback', function(request, response) {
     Mastodon.getAccessToken(clientId, clientSecret, request.query.code, baseUrl)
         .catch(err => console.error(err))
         .then(accessToken => {
+            console.log(clientId)
+            console.log(clientSecret)
+            console.log(request.query.code)
+            console.log(baseUrl)
             console.log(`This is the access token. Save it!\n${accessToken}`)
             response.render('pages/index2.ejs')
         })
