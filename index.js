@@ -147,7 +147,7 @@ app.post('/instance',function(request, response) {
                             return console.error('could not connect to postgres', err);
                         }
                         var qstr = "insert into data (instance_name,url,id,client_id,client_secret) values($1, $2, $3, $4, $5);"
-                        var query = client2.query(qstr, [instance_name, base_url, resp.id, client_id, client_secret])
+                        var query = client2.query(qstr, [instance_name, base_url, resp.id, resp.client_id, resp.client_secret])
                         query.on('end', function(row,err) {
                             Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
                                 .then(resp=> response.redirect(resp),error=> console.log(error))
