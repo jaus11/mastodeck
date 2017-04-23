@@ -131,8 +131,8 @@ app.post('/instance',function(request, response) {
         if(err) {
             return console.error('could not connect to postgres', err);
         }
-        client.query('select count(*) from data where instance_name = \'' + request.body.instance_name + '\';', function(err, result) {
-            console.log(result);
+        client.query('select count(*) as num from data where instance_name = \'' + request.body.instance_name + '\';', function(err, result) {
+            console.log(result.num=='0');
             if(err) {
                 return console.error('error running query', err);
             } else if(result=='0') {
