@@ -24,6 +24,7 @@ var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cb
 
 var passport = require('passport');
 var MastodonStrategy = require('passport-mastodon');
+require('./path/to/passport/config/file')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -71,7 +72,8 @@ app.get('/', function(request, response) {
                             });
                         }
                     ));
-                    response.redirect('/auth');
+                    passport.authenticate('mastodon')
+                    //response.redirect('/auth');
                 });
             });
         } else {
@@ -155,7 +157,7 @@ app.get('/callback', passport.authenticate('mastodon', { failureRedirect: '/logi
     response.redirect('/');
 });
 
-app.get('/auth', passport.authenticate('mastodon'));
+//app.get('/auth', passport.authenticate('mastodon'));
 
 app.post('/instance',function(request, response) {
     // var jsonfile = require('jsonfile');
