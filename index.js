@@ -163,7 +163,7 @@ app.get('/callback', function(request, response) {
 //     response.redirect('/');
 // });
 
-app.get('/auth', passport.authenticate('mastodon'));
+//app.get('/auth', passport.authenticate('mastodon'));
 
 app.post('/instance',function(request, response) {
     var instance_name = request.body.instance_name;
