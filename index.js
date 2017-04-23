@@ -219,7 +219,7 @@ app.post('/instance',function(request, response) {
 
 app.get('/logout',function(request, response){
     response.cookie('instance','');
-    response.cookie('access_token');
+    response.cookie('access_token','');
     response.redirect('/');
 });
 
