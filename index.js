@@ -141,12 +141,13 @@ app.post('/instance',function(request, response) {
                 base_url = 'https://' + instance_name;
                 Masto.createOAuthApp(base_url + '/api/v1/apps', "Mastodeck", 'read write follow', redirect_uri)
                 .then(resp=> {
-                    client.connect(function(err) {
+                    var client2 = new pg.Client(conString);
+                    client2.connect(function(err) {
                         if(err) {
                             return console.error('could not connect to postgres', err);
                         }
                         var qstr = "insert into data (instance_name,url,id,client_id,client_secret) values($1, $2, $3, $4, $5);"
-                        client.query(qstr, [instance_name, base_url, resp.id, client_id, client_secret])
+                        var query = client2.query(qstr, [instance_name, base_url, resp.id, client_id, client_secret])
                         query.on('end', function(row,err) {
                             Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
                                 .then(resp=> response.redirect(resp),error=> console.log(error))
