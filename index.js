@@ -71,6 +71,7 @@ app.get('/', function(request, response) {
                             });
                         }
                     ));
+                    passport.authenticate('mastodon')
                     response.redirect('/auth');
                 });
             });
