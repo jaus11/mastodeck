@@ -89,44 +89,46 @@ app.get('/', function(request, response) {
             var toots_local = []
 
             M.get('timelines/public', function(err, data, res) {
-                if(!err)
-                for (key in data) {
-                    var toot = {
-                        id : data[key].account.username,
-                        profile_img : data[key].account.avatar,
-                        content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-                    };
-                    toots_public.push(toot);
+                if(!err){
+                    for (key in data) {
+                        var toot = {
+                            id : data[key].account.username,
+                            profile_img : data[key].account.avatar,
+                            content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                        };
+                        toots_public.push(toot);
+                    }
+                    response.locals.toots_public = toots_public;
                 }
             })
 
             M.get('timelines/home', function(err, data, res) {
-                if(!err)
-                for (key in data) {
-                    var toot = {
-                        id : data[key].account.username,
-                        profile_img : data[key].account.avatar,
-                        content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-                    };
-                    toots_home.push(toot);
+                if(!err){
+                    for (key in data) {
+                        var toot = {
+                            id : data[key].account.username,
+                            profile_img : data[key].account.avatar,
+                            content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                        };
+                        toots_home.push(toot);
+                    }
+                    response.locals.toots_home = toots_home;
                 }
             })
 
             M.get('timelines/public?local=on', function(err, data, res) {
-                if(!err)
-                for (key in data) {
-                    var toot = {
-                        id : data[key].account.username,
-                        profile_img : data[key].account.avatar,
-                        content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-                    };
-                    toots_local.push(toot);
+                if(!err){
+                    for (key in data) {
+                        var toot = {
+                            id : data[key].account.username,
+                            profile_img : data[key].account.avatar,
+                            content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                        };
+                        toots_local.push(toot);
+                    }
+                    response.locals.toots_local = toots_local;
                 }
             })
-            console.log(toots_home);
-            response.locals.toots_home = toots_home;
-            response.locals.toots_public = toots_public;
-            response.locals.toots_local = toots_local;
             response.render('pages/index');
         }
     }
