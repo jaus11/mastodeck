@@ -23,22 +23,6 @@ var pg = require('pg');
 var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cbe9d847c7a3ef11712481ab69088@ec2-174-129-227-116.compute-1.amazonaws.com:5432/d9di7k3e04uhkm'
 
 var crypto = require("crypto");
-var password = "mastodeck";
-
-// var passport = require('passport');
-// var MastodonStrategy = require('passport-mastodon').Strategy;
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// passport.serializeUser(function(user, done) {
-//     done(null, user.id);
-// });
-//
-// passport.deserializeUser(function(id, done) {
-//     User.findById(id, function(err, user) {
-//         done(err, user);
-//     });
-// });
 
 app.get('/', function(request, response) {
     if(!request.cookies.instance){
@@ -56,24 +40,6 @@ app.get('/', function(request, response) {
                     }
                     Masto.getAuthorizationUrl(result.rows[0].client_id, result.rows[0].client_secret, result.rows[0].url, 'read write follow', redirect_uri)
                       .then(resp=> response.redirect(resp),error=> console.log(error))
-
-                    //passport ver.
-
-                    // passport.use(new MastodonStrategy({
-                    //     provider: request.cookies.instance,
-                    //     domain: request.cookies.instance,
-                    //     clientID: result.rows[0].client_id,
-                    //     clientSecret: result.rows[0].client_secret,
-                    //     callbackURL: redirect_uri
-                    //     },
-                    //     function(accessToken, refreshToken, profile, cb) {
-                    //         passport.session.accessToken = accessToken;
-                    //         User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-                    //             return cb(err, user);
-                    //         });
-                    //     }
-                    // ));
-                    // response.redirect('/auth');
                 });
             });
         } else {
@@ -82,10 +48,6 @@ app.get('/', function(request, response) {
                 timeout_ms: 60 * 1000,
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
-
-            // M.post('statuses', {status: 'test from node.js+express'}, function(err, data, res){
-            //     if(err) console.log(res)
-            // });
 
             var toots_public = []
             var toots_home = []
@@ -97,7 +59,7 @@ app.get('/', function(request, response) {
                         var toot = {
                             id : data[key].account.username,
                             profile_img : data[key].account.avatar,
-                            content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                            content : data[key].content//.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
                         };
                         toots_public.push(toot);
                     }
@@ -108,7 +70,7 @@ app.get('/', function(request, response) {
                                 var toot = {
                                     id : data[key].account.username,
                                     profile_img : data[key].account.avatar,
-                                    content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                                    content : data[key].content//.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
                                 };
                                 toots_home.push(toot);
                             }
@@ -119,7 +81,7 @@ app.get('/', function(request, response) {
                                         var toot = {
                                             id : data[key].account.username,
                                             profile_img : data[key].account.avatar,
-                                            content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+                                            content : data[key].content//.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
                                         };
                                         toots_local.push(toot);
                                     }
@@ -158,14 +120,6 @@ app.get('/callback', function(request, response) {
     });
 });
 
-//passport ver.
-
-// app.get('/callback', passport.authenticate('mastodon', { failureRedirect: '/login' }), function(request, response) {
-//     response.redirect('/');
-// });
-
-//app.get('/auth', passport.authenticate('mastodon'));
-
 app.post('/instance',function(request, response) {
     var instance_name = request.body.instance_name;
     response.cookie('instance',instance_name);
@@ -191,22 +145,6 @@ app.post('/instance',function(request, response) {
                         query.on('end', function(row,err) {
                             Masto.getAuthorizationUrl(resp.client_id, resp.client_secret, base_url, 'read write follow', redirect_uri)
                                 .then(resp=> response.redirect(resp),error=> console.log(error))
-
-                            //passport ver.
-
-                            // passport.use(new MastodonStrategy({
-                            //     clientId: result.rows[0].client_id,
-                            //     clientSecret: result.rows[0].client_secret,
-                            //     callbackURL: redirect_uri
-                            //     },
-                            //     function(accessToken, refreshToken, profile, cb) {
-                            //         passport.session.accessToken = accessToken;
-                            //         User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-                            //             return cb(err, user);
-                            //         });
-                            //     }
-                            // ));
-                            // passport.authenticate('mastodon');
                         });
                         query.on('error', function(error) {
                             console.log("ERROR!");
@@ -227,14 +165,14 @@ app.get('/logout',function(request, response){
 });
 
 function code(text){
-    var cipher = crypto.createCipher('aes192', password, "");
+    var cipher = crypto.createCipher('aes192', "majstaodueck5", "");
     cipher.update(text, 'utf8', 'base64')
     var cipheredText = cipher.final('base64')
     return cipheredText;
 }
 
 function decode(text){
-    var decipher = crypto.createDecipher('aes192', password, "");
+    var decipher = crypto.createDecipher('aes192', "majstaodueck5", "");
     decipher.update(text, 'base64', 'utf8');
     var dec = decipher.final('utf8');
     return dec;
