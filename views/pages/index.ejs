@@ -6,6 +6,9 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 </head>
 <body>
+    <div id="menu">
+        <input type="image" src="logout.png" value="ログアウト" onclick="location.href='/logout'">
+    </div>
     <div id="column">
         <div id="top">Home</div>
         <% toots_home.forEach(function (value, key) {%>
@@ -23,9 +26,6 @@
         <% toots_public.forEach(function (value, key) {%>
         <div id="cell"><img src=<%= value.profile_img %> width=10% class="prof_img"><p class="id">@<%= value.id %></p><p class="content"><%= value.content %></p></div>
         <% }); %>
-    </div>
-    <div id="menu">
-        <input type="image" src="logout.png" value="ログアウト" onclick="location.href='/logout'" >
     </div>
 </body>
 </html>
