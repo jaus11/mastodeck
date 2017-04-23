@@ -21,7 +21,6 @@ var Masto = require('mastodon-api')
 
 var pg = require('pg');
 var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cbe9d847c7a3ef11712481ab69088@ec2-174-129-227-116.compute-1.amazonaws.com:5432/d9di7k3e04uhkm'
-var client = new pg.Client(conString);
 
 app.get('/', function(request, response) {
     if(!request.cookies.instance){
@@ -32,6 +31,7 @@ app.get('/', function(request, response) {
             // var jsonfile = require('jsonfile');
             // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
             // var instance = instances[request.cookies.instance];
+            var client = new pg.Client(conString);
             client.connect(function(err) {
                 if(err) {
                     return console.error('could not connect to postgres', err);
@@ -102,6 +102,7 @@ app.get('/callback',function(request, response) {
     // var jsonfile = require('jsonfile');
     // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     // var instance = instances[request.cookies.instance];
+    var client = new pg.Client(conString);
     client.connect(function(err) {
         if(err) {
             return console.error('could not connect to postgres', err);
@@ -127,6 +128,7 @@ app.post('/instance',function(request, response) {
     // var instances = jsonfile.readFileSync('public/token.json',{encoding: 'utf-8'});
     var instance_name = request.body.instance_name;
     response.cookie('instance',instance_name);
+    var client = new pg.Client(conString);
     client.connect(function(err) {
         if(err) {
             return console.error('could not connect to postgres', err);
