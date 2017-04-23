@@ -77,11 +77,8 @@ app.get('/', function(request, response) {
                 });
             });
         } else {
-            var decipher = crypto.createDecipher('aes192', password, "");
-            decipher.update(request.cookies.access_token, 'base64', 'utf8');
-            var dec = decipher.final('utf8');
             var M = new Masto({
-                access_token: dec,
+                access_token: decode(request.cookies.access_token),
                 timeout_ms: 60 * 1000,
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
@@ -151,10 +148,7 @@ app.get('/callback', function(request, response) {
             Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url, redirect_uri)
                 .then(resp=> {
                     client.end()
-                    var cipher = crypto.createCipher('aes192', password, "");
-                    cipher.update(resp, 'utf8', 'base64')
-                    var cipheredText = cipher.final('base64')
-                    response.cookie('access_token',cipheredText)
+                    response.cookie('access_token',code(resp))
                     response.redirect('https://mastodeck.herokuapp.com/')
                 },error=> {
                     console.log(error)
@@ -231,6 +225,20 @@ app.get('/logout',function(request, response){
     response.cookie('access_token','');
     response.redirect('/');
 });
+
+function code(text){
+    var cipher = crypto.createCipher('aes192', password, "");
+    cipher.update(text, 'utf8', 'base64')
+    var cipheredText = cipher.final('base64')
+    return cipheredText;
+}
+
+function decode(text){
+    var decipher = crypto.createDecipher('aes192', password, "");
+    decipher.update(text, 'base64', 'utf8');
+    var dec = decipher.final('utf8');
+    return dec;
+}
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
