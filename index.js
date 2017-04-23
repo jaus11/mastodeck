@@ -77,8 +77,8 @@ app.get('/', function(request, response) {
                 });
             });
         } else {
-            var decipher = crypto.createDecipher('aes192', password);
-            decipher.update(request.cookies.access_token, 'hex', 'utf8');
+            var decipher = crypto.createDecipher('aes192', password, "");
+            decipher.update(request.cookies.access_token, 'base64', 'utf8');
             var dec = decipher.final('utf8');
             var M = new Masto({
                 access_token: dec,
@@ -151,9 +151,9 @@ app.get('/callback', function(request, response) {
             Masto.getAccessToken(result.rows[0].client_id, result.rows[0].client_secret, request.query.code, result.rows[0].url, redirect_uri)
                 .then(resp=> {
                     client.end()
-                    var cipher = crypto.createCipher('aes192', password);
-                    cipher.update(resp, 'utf8', 'hex')
-                    var cipheredText = cipher.final('hex')
+                    var cipher = crypto.createCipher('aes192', password, "");
+                    cipher.update(resp, 'utf8', 'base64')
+                    var cipheredText = cipher.final('base64')
                     response.cookie('access_token',cipheredText)
                     response.redirect('https://mastodeck.herokuapp.com/')
                 },error=> {
