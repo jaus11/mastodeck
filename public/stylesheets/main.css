@@ -63,6 +63,7 @@
     height: auto;
     background-color: gray;
     margin: 5px;
+    word-wrap: break-word;
 }
 
 .id {
