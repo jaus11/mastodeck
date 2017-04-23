@@ -108,6 +108,7 @@ app.get('/', function(request, response) {
                         profile_img : data[key].account.avatar,
                         content : data[key].content.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
                     };
+                    console.log("test");
                     toots_home.push(toot);
                 }
             })
