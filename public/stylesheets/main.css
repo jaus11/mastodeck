@@ -26,7 +26,14 @@
       max-width: 100%; }
 
 #menu {
-    width: 10%;
+    width: 5%;
+    height: 100%;
+    background-color: black;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#columns {
     height: 100%;
     background-color: black;
     display: inline-block;
