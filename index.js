@@ -24,6 +24,7 @@ var conString = 'postgres://utxtjrftinvuti:d9f53eef6c4976085d8b93810f61773db47cb
 
 var passport = require('passport');
 var MastodonStrategy = require('passport-mastodon');
+app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
