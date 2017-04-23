@@ -58,6 +58,8 @@ app.get('/', function(request, response) {
                     // Masto.getAuthorizationUrl(result.rows[0].client_id, result.rows[0].client_secret, result.rows[0].url, 'read write follow', redirect_uri)
                     //   .then(resp=> response.redirect(resp),error=> console.log(error))
                     passport.use(new MastodonStrategy({
+                        provider: request.cookies.instance,
+                        domain: request.cookies.instance,
                         clientID: result.rows[0].client_id,
                         clientSecret: result.rows[0].client_secret,
                         callbackURL: redirect_uri
