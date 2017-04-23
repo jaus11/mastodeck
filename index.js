@@ -81,7 +81,7 @@ app.get('/', function(request, response) {
             })
 
             M.post('statuses', {status: 'test from node.js+express'}, function(err, data, res){
-                if(!err) console.log(res)
+                if(err) console.log(res)
             });
 
             var toots_public = []
