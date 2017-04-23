@@ -56,7 +56,6 @@ app.get('/', function(request, response) {
 
             M.get('timelines/public', function(err, data, res) {
                 if(!err){
-                    jsonfile.writeFileSync("public/test.json",data,{encoding: 'utf-8', spaces: 2});
                     for (key in data) {
                         var toot = {
                             id : data[key].account.username,
@@ -67,6 +66,7 @@ app.get('/', function(request, response) {
                     }
                     response.locals.toots_public = toots_public;
                     M.get('timelines/home', function(err, data, res) {
+                        jsonfile.writeFileSync("public/test.json",data,{encoding: 'utf-8', spaces: 2});
                         if(!err){
                             for (key in data) {
                                 var toot = {
