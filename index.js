@@ -127,9 +127,9 @@ app.get('/', function(request, response) {
                         toots_local.push(toot);
                     }
                     response.locals.toots_local = toots_local;
+                    response.render('pages/index');
                 }
             })
-            response.render('pages/index');
         }
     }
 });
