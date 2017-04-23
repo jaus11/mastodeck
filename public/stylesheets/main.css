@@ -34,7 +34,7 @@
 }
 
 #columns {
-    width: 80%;
+    width: 90%;
     height: 100%;
     background-color: black;
     display: inline-block;
@@ -42,7 +42,7 @@
 }
 
 #column {
-    width: 25%;
+    width: 30%;
     height: 100%;
     background-color: black;
     display: inline-block;
@@ -50,7 +50,7 @@
 }
 
 #top {
-    width: 25%;
+    width: 30%;
     background-color: black;
     border-width: 2px;
     border-color: rgb(100,10,10);
@@ -59,7 +59,7 @@
 }
 
 #cell {
-    height: 25%;
+    height: 30%;
     background-color: gray;
     margin: 5px;
 }
