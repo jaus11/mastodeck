@@ -53,6 +53,12 @@ app.get('/', function(request, response) {
             var toots_home = []
             var toots_local = []
 
+            const listener = M.stream('streaming/user')
+
+            listener.on('message', msg => console.log(msg))
+
+            listener.on('error', err => console.log(err))
+
             M.get('timelines/public', function(err, data, res) {
                 if(!err){
                     for (key in data) {
