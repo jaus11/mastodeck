@@ -27,18 +27,22 @@
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
             var home=document.getElementsByName(field_name).item(0);
-            for (var i = 0; i < this.response.length; i++) {
+            for (var data :  this.response.length) {
                 var cell = document.createElement('div');
                 cell.id = 'cell';
                 var prof_img = document.createElement('img');
-                prof_img.src=this.response[i].account.avatar;
+                prof_img.src=data.account.avatar;
                 prof_img.className="prof_img";
                 cell.appendChild(prof_img);
+                var name = document.createElement('h2');
+                name.innerHTML = data.account.display_name;
+                name.className = "username";
+                cell.appendChild(name);
                 var id = document.createElement('p');
                 id.className="id";
-                id.innerHTML = '@' + this.response[i].account.username;
+                id.innerHTML = '@' + data.account.username;
                 cell.appendChild(id);
-                cell.innerHTML += this.response[i].content;
+                cell.innerHTML += data.content;
                 home.appendChild(cell);
             }
         }

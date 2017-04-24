@@ -81,8 +81,13 @@ html,body {
     word-wrap: break-word;
 }
 
-.id {
+.username {
     color : white;
+    display: inline-block;
+}
+
+.id {
+    color : gray;
     display: inline-block;
 }
 
