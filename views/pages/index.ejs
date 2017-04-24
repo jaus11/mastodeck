@@ -12,10 +12,10 @@
     req.onload = function() {
         console.log( this.response );
         var home=document.getElementsByName('home');
-        for (var i = 0; i < response.length; i++) {
+        for (var i = 0; i < this.response.length; i++) {
             var cell = createElement('div');
             cell.id = 'cell';
-            cell.appendChild(response[i].content);
+            cell.appendChild(this.response[i].content);
             home.appendChild(cell);
         }
     }
