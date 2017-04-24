@@ -26,10 +26,11 @@
       max-width: 100%; }
 
 
-body {
+html,body {
     padding: 0px;
     margin: 0px;
     background-color: black;
+    height: 100%;
 }
 
 #menu {
@@ -55,7 +56,7 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
     /*width: 300px;*/
-    height: 1000px;
+    height: 100%;
     background-color: black;
     display: inline-block;
     vertical-align: top;
