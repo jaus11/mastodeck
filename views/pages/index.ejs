@@ -63,7 +63,9 @@
     }
 
     function getElementByNumber(elements,number){
+        console.log("number is "+ number);
         elements.forEach(function(element){
+            console.log("element : " + element.getAttribute('number'));
             if(element.getAttribute('number')==number){
                 return element;
             }
