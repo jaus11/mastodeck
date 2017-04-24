@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
+    //var url
     function loadColumn(column) {
         var req = new XMLHttpRequest();
         var field_url;
@@ -27,6 +28,7 @@
     function load(field_name, column_number) {
         var req = new XMLHttpRequest();
         var field_url;
+        console.log(this.getResponseHeader("Link"));
         switch (field_name) {
             case "home":
                 field_url="timelines/home";
@@ -45,11 +47,10 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            var main = getElementByNumber(document.getElementsByName(field_name), column_number);
-            Array.prototype.forEach.call(main.children, function(child){
-                if(child.id=="cell")
-                    main.removeChild(child);
-            });
+            var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
+            while (main.firstChild) {
+                main.removeChild(main.firstChild);
+            }
 
             for(var i=0;i<this.response.length;i++) {
                 var cell = document.createElement('div');
@@ -84,7 +85,7 @@
         req.send() ;
     }
 
-    function getElementByNumber(elements,number){
+    function getColumnByNumber(elements,number){
         var correct_element = elements[0];
         elements.forEach(function(element){
             if(element.getAttribute('number')==number){
@@ -106,6 +107,10 @@
         top.innerHTML = field_name;
         newColumn.appendChild(top);
 
+        var toot_field = document.createElement('div');
+        toot_field.id="toot_field";
+        newColumn.appendChild(toot_field);
+
         columns.appendChild(newColumn);
         load(field_name,String(columns.children.length));
     }
@@ -117,7 +122,7 @@
         });
     }
 
-    setInterval("refresh()",10000);
+    //setInterval("refresh()",10000);
     </script>
 </head>
 <body>
@@ -136,30 +141,27 @@
     <div id="columns">
         <div id="column" name="home" number="1">
             <div id="top">Home</div>
-            <script type="text/javascript">
-            load("home",1);
-            </script>
-            <!-- <% /*toots_home.forEach(function (value, key) {*/%>
-            <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
-            <%/* }); */%> -->
+            <div id="toot_field">
+                <script type="text/javascript">
+                load("home",1);
+                </script>
+            </div>
         </div>
         <div id="column" name="local" number="2">
             <div id="top">Local</div>
-            <script type="text/javascript">
-            load("local",2);
-            </script>
-            <!-- <% /*toots_local.forEach(function (value, key) {*/%>
-            <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
-            <%/* }); */%> -->
+            <div id="toot_field">
+                <script type="text/javascript">
+                load("local",2);
+                </script>
+            </div>
         </div>
         <div id="column" name="public" number="3">
             <div id="top">Public</div>
-            <script type="text/javascript">
-            load("public",3);
-            </script>
-            <!-- <% /*toots_public.forEach(function (value, key) {*/%>
-            <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
-            <%/* }); */%> -->
+            <div id="toot_field">
+                <script type="text/javascript">
+                load("public",3);
+                </script>
+            </div>
         </div>
     </div>
 </body>
