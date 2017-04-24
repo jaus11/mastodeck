@@ -46,6 +46,7 @@ html,body {
     overflow-x:auto;
     overflow-y:hidden;
     width:90%;
+    height: 100%;
     white-space:nowrap;
     background-color: black;
     display: inline-block;
