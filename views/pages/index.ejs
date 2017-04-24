@@ -32,32 +32,32 @@
                     main.removeChild(child);
             });
 
-            this.response.forEach(function(data) {
+            for(var i=0;i<this.response.length;i++) {
                 var cell = document.createElement('div');
                 cell.id = 'cell';
 
                 var prof_img = document.createElement('img');
-                prof_img.src=data.account.avatar;
+                prof_img.src=this.response[i].account.avatar;
                 prof_img.className="prof_img";
                 cell.appendChild(prof_img);
 
                 var name = document.createElement('h4');
-                name.innerHTML = data.account.display_name;
+                name.innerHTML = this.response[i].account.display_name;
                 name.className = "username";
                 cell.appendChild(name);
 
                 var id = document.createElement('p');
                 id.className="id";
-                id.innerHTML = '@' + data.account.username;
+                id.innerHTML = '@' + this.response[i].account.username;
                 cell.appendChild(id);
 
                 var content = document.createElement('div');
                 content.className = "content";
-                content.innerHTML = data.content;
+                content.innerHTML = this.response[i].content;
                 cell.appendChild(content);
 
                 main.appendChild(cell);
-            });
+            }
         }
         req.onerror = function() {
             console.log(this);
