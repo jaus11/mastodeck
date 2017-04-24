@@ -26,10 +26,7 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            //var home=document.getElementsByName(field_name).item(0);
-            console.log("called load " + field_name + String(column_number));
             var main = getElementByNumber(document.getElementsByName(field_name), column_number);
-            console.log("main" + main.getAttribute("number"));
             this.response.forEach(function(data) {
                 var cell = document.createElement('div');
                 cell.id = 'cell';
@@ -64,12 +61,9 @@
     }
 
     function getElementByNumber(elements,number){
-        console.log("number is "+ number);
         var correct_element = elements[0];
         elements.forEach(function(element){
-            console.log("element : " + element.getAttribute('number'));
             if(element.getAttribute('number')==number){
-                console.log(element.getAttribute('number') + " is correct!");
                 return correct_element=element;
             }
         });
@@ -87,11 +81,6 @@
         top.id="top";
         top.innerHTML = "Home";
         newColumn.appendChild(top);
-
-        // var script = document.createElement('script');
-        // script.type = "text/javascript";
-        // script.innerHTML = "load(" + "\"home\"" + "," + String(columns.children.length+1) + ");";
-        // newColumn.appendChild(script);
 
         columns.appendChild(newColumn);
         load("home",String(columns.children.length));
