@@ -88,7 +88,8 @@
 
     function refresh(){
         var columns = document.getElementById("columns");
-        columns.children.forEach(function(colum){
+        var column_array = columns.children;
+        column_array.forEach(function(column){
             load(column.getAttribute("name"),column.getAttribute("number"));
         });
     }
