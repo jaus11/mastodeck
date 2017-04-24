@@ -26,7 +26,8 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            var home=document.getElementsByName(field_name).item(0);
+            //var home=document.getElementsByName(field_name).item(0);
+            var main = document.createElement('div');
             this.response.forEach(function(data) {
                 var cell = document.createElement('div');
                 cell.id = 'cell';
@@ -50,15 +51,30 @@
                 content.className = "content";
                 content.innerHTML = data.content;
                 cell.appendChild(content);
-                
-                home.appendChild(cell);
+
+                main.appendChild(cell);
             });
+            return main.innerHTML;
         }
         req.onerror = function() {
             console.log(this);
         }
         req.send() ;
     }
+    // function addColumn(){
+    //     var columns = document.getElementsById("columns");
+    //
+    //     var newColumn = document.createElement('div');
+    //     newColumn.id = "column";
+    //     newColumn.name= "home";
+    //
+    //     var top = document.createElement('div');
+    //     top.id="top";
+    //     top.innerHTML = "Home";
+    //     newColumn.appendChild(top);
+    //
+    //     var script
+    // }
     </script>
 </head>
 <body>
@@ -68,10 +84,11 @@
         <input type="button" value="検索" onclick="">
         <input type="button" value="アカウント追加" onclick="">
         <input type="button" value="プロフィール" onclick="">
+        <input type="button" value="add column" onclick="addColumn()">
         <input type="button" value="ログアウト" onclick="location.href='/logout'">
     </div>
     <div id="columns">
-        <div id="column" name="home">
+        <div id="column" name="home"　number=1>
             <div id="top" >Home</div>
             <script type="text/javascript">
             load("home");
@@ -80,7 +97,7 @@
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
             <%/* }); */%> -->
         </div>
-        <div id="column" name="local">
+        <div id="column" name="local" number=2>
             <div id="top">Local</div>
             <script type="text/javascript">
             load("local");
@@ -89,7 +106,7 @@
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
             <%/* }); */%> -->
         </div>
-        <div id="column" name="public">
+        <div id="column" name="public" number=3>
             <div id="top">Public</div>
             <script type="text/javascript">
             load("public");
