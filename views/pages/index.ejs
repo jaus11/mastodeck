@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
-    function load(field_name) {
+    function load(field_name, column_number) {
         var req = new XMLHttpRequest();
         var field_url;
         switch (field_name) {
@@ -27,7 +27,7 @@
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
             //var home=document.getElementsByName(field_name).item(0);
-            var main = document.createElement('div');
+            var main = getElementByNumber(document.getElementsByName(field_name), column_number);
             this.response.forEach(function(data) {
                 var cell = document.createElement('div');
                 cell.id = 'cell';
@@ -54,27 +54,41 @@
 
                 main.appendChild(cell);
             });
-            document.write(main.innerHTML);
         }
         req.onerror = function() {
             console.log(this);
         }
         req.send() ;
     }
-    // function addColumn(){
-    //     var columns = document.getElementsById("columns");
-    //
-    //     var newColumn = document.createElement('div');
-    //     newColumn.id = "column";
-    //     newColumn.name= "home";
-    //
-    //     var top = document.createElement('div');
-    //     top.id="top";
-    //     top.innerHTML = "Home";
-    //     newColumn.appendChild(top);
-    //
-    //     var script
-    // }
+
+    function getElementByNumber(elements,number){
+        elements.forEach(function(element){
+            if(element.getAttribute('number')==number){
+                return element;
+            }
+        });
+        return null;
+    }
+    function addColumn(){
+        var columns = document.getElementById("columns");
+
+        var newColumn = document.createElement('div');
+        newColumn.id = "column";
+        newColumn.name= "home";
+        newColumn.number = columns.children.length+1;
+
+        var top = document.createElement('div');
+        top.id="top";
+        top.innerHTML = "Home";
+        newColumn.appendChild(top);
+
+        var script = document.createElement('script');
+        script.type = "text/javascript";
+        script.innerHTML = "load(" + "home" + "," + String(newColumn.number) + ");";
+        newColumn.appendChild(script);
+
+        columns.appendChild(newColumn);
+    }
     </script>
 </head>
 <body>
@@ -89,9 +103,9 @@
     </div>
     <div id="columns">
         <div id="column" name="home"　number=1>
-            <div id="top" >Home</div>
+            <div id="top">Home</div>
             <script type="text/javascript">
-            load("home");
+            load("home",1);
             </script>
             <!-- <% /*toots_home.forEach(function (value, key) {*/%>
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
@@ -100,7 +114,7 @@
         <div id="column" name="local" number=2>
             <div id="top">Local</div>
             <script type="text/javascript">
-            load("local");
+            load("local",2);
             </script>
             <!-- <% /*toots_local.forEach(function (value, key) {*/%>
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
@@ -109,7 +123,7 @@
         <div id="column" name="public" number=3>
             <div id="top">Public</div>
             <script type="text/javascript">
-            load("public");
+            load("public",3);
             </script>
             <!-- <% /*toots_public.forEach(function (value, key) {*/%>
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
