@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
     function load(field_name, column_number) {
-        console.log("called load " + field_name + String(column_number));
         var req = new XMLHttpRequest();
         var field_url;
         switch (field_name) {
@@ -28,6 +27,7 @@
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
             //var home=document.getElementsByName(field_name).item(0);
+            console.log("called load " + field_name + String(column_number));
             var main = getElementByNumber(document.getElementsByName(field_name), column_number);
             this.response.forEach(function(data) {
                 var cell = document.createElement('div');
