@@ -11,6 +11,13 @@
     req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
     req.onload = function() {
         console.log( this.response );
+        var home=document.getElementsByName('home');
+        for (var i = 0; i < response.length; i++) {
+            var cell = createElement('div');
+            cell.id = 'cell';
+            cell.appendChild(response[i].content);
+            home.appendChild(cell);
+        }
     }
     req.onerror = function() {
         console.log(this);
@@ -28,8 +35,8 @@
         <input type="button" value="ログアウト" onclick="location.href='/logout'">
     </div>
     <div id="columns">
-        <div id="column">
-            <div id="top">Home</div>
+        <div id="column" name="home">
+            <div id="top" >Home</div>
             <!-- <% /*toots_home.forEach(function (value, key) {*/%>
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
             <%/* }); */%> -->
