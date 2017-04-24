@@ -27,7 +27,7 @@
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
             var home=document.getElementsByName(field_name).item(0);
-            for (var data :  this.response.length) {
+            for (var data :  this.response) {
                 var cell = document.createElement('div');
                 cell.id = 'cell';
                 var prof_img = document.createElement('img');
