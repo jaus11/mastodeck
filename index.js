@@ -49,7 +49,7 @@ app.get('/', function(request, response) {
                 timeout_ms: 60 * 1000,
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
-            response.render('pages/index',{access_token: request.cookies.access_token,api_url: 'https://' + request.cookies.instance + '/api/v1/'});
+            response.render('pages/index3',{access_token: request.cookies.access_token,api_url: 'https://' + request.cookies.instance + '/api/v1/'});
 
             // var toots_public = []
             // var toots_home = []
