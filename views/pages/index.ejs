@@ -69,21 +69,21 @@
         });
         return correct_element;
     }
-    function addColumn(){
+    function addColumn(field_name){
         var columns = document.getElementById("columns");
 
         var newColumn = document.createElement('div');
         newColumn.id = "column";
-        newColumn.setAttribute('name','home');
+        newColumn.setAttribute('name',field_name);
         newColumn.setAttribute('number',columns.children.length+1);
 
         var top = document.createElement('div');
         top.id="top";
-        top.innerHTML = "Home";
+        top.innerHTML = field_name;
         newColumn.appendChild(top);
 
         columns.appendChild(newColumn);
-        load("home",String(columns.children.length));
+        load(field_name,String(columns.children.length));
     }
     </script>
 </head>
@@ -94,7 +94,10 @@
         <input type="button" value="検索" onclick="">
         <input type="button" value="アカウント追加" onclick="">
         <input type="button" value="プロフィール" onclick="">
-        <input type="button" value="add column" onclick="addColumn()">
+        <label style="color: white;">add</label>
+        <input type="button" value="home" onclick="addColumn('home')">
+        <input type="button" value="public" onclick="addColumn('public')">
+        <input type="button" value="local" onclick="addColumn('local')">
         <input type="button" value="ログアウト" onclick="location.href='/logout'">
     </div>
     <div id="columns">
