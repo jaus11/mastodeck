@@ -39,7 +39,7 @@
                 id.class="id";
                 id.innerHTML = '@' + this.response[i].account.username;
                 cell.appendChild(id);
-                cell.innerHTML = this.response[i].content;
+                cell.innerHTML += this.response[i].content;
                 home.appendChild(cell);
             }
         }
