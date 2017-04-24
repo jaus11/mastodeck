@@ -37,7 +37,7 @@
                 cell.appendChild(prof_img);
                 var id = document.createElement('p');
                 id.class="id";
-                id.innerHTML = @ + this.response[i].account.username;
+                id.innerHTML = '@' + this.response[i].account.username;
                 cell.appendChild(id);
                 cell.innerHTML = this.response[i].content;
                 home.appendChild(cell);
