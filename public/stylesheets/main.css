@@ -80,6 +80,7 @@ html,body {
     text-align: center;
     font-size: 20px;
     vertical-align: middle;
+    display: table-cell;
 }
 
 #cell {
