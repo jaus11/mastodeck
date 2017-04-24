@@ -45,7 +45,7 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            var main = getElementByNumber(document.getElementsByName(field_name), column_number).getElementById("toot_field");
+            var main = getElementByNumber(document.getColumnByName(field_name), column_number).children[1];
             while (main.firstChild) {
                 main.removeChild(main.firstChild);
             }
@@ -83,7 +83,7 @@
         req.send() ;
     }
 
-    function getElementByNumber(elements,number){
+    function getColumnByNumber(elements,number){
         var correct_element = elements[0];
         elements.forEach(function(element){
             if(element.getAttribute('number')==number){
