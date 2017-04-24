@@ -91,7 +91,7 @@
         // newColumn.appendChild(script);
 
         columns.appendChild(newColumn);
-        load("home",columns.children.length);
+        load("home",String(columns.children.length));
     }
     </script>
 </head>
@@ -106,7 +106,7 @@
         <input type="button" value="ログアウト" onclick="location.href='/logout'">
     </div>
     <div id="columns">
-        <div id="column" name="home"　number=1>
+        <div id="column" name="home" number="1">
             <div id="top">Home</div>
             <script type="text/javascript">
             load("home",1);
@@ -115,7 +115,7 @@
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
             <%/* }); */%> -->
         </div>
-        <div id="column" name="local" number=2>
+        <div id="column" name="local" number="2">
             <div id="top">Local</div>
             <script type="text/javascript">
             load("local",2);
@@ -124,7 +124,7 @@
             <div id="cell"><img src=<%= /*value.profile_img*/ %> width=10% class="prof_img"><p class="id">@<%/*= value.id */%></p><%/*- value.content */%></div>
             <%/* }); */%> -->
         </div>
-        <div id="column" name="public" number=3>
+        <div id="column" name="public" number="3">
             <div id="top">Public</div>
             <script type="text/javascript">
             load("public",3);
