@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
     function load(field_name, column_number) {
+        console.log("called load " + field_name + String(column_number));
         var req = new XMLHttpRequest();
         var field_url;
         switch (field_name) {
