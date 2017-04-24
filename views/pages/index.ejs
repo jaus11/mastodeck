@@ -28,7 +28,8 @@
         req.onload = function() {
             var main = getElementByNumber(document.getElementsByName(field_name), column_number);
             while (main.firstChild) {
-                main.removeChild(main.firstChild);
+                if(main.firstChild.id=="cell")
+                    main.removeChild(main.firstChild);
             }
             this.response.forEach(function(data) {
                 var cell = document.createElement('div');
