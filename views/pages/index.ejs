@@ -85,6 +85,15 @@
         columns.appendChild(newColumn);
         load(field_name,String(columns.children.length));
     }
+
+    function refresh(){
+        var columns = document.getElementById("columns");
+        columns.children.forEach(function(colum){
+            load(column.getAttribute("name"),column.getAttribute("number"));
+        });
+    }
+
+    setInterval("refresh",10000);
     </script>
 </head>
 <body>
