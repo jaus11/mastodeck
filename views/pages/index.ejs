@@ -32,10 +32,10 @@
                 cell.id = 'cell';
                 var prof_img = document.createElement('img');
                 prof_img.src=this.response[i].account.avatar;
-                prof_img.class="prof_img";
+                prof_img.className="prof_img";
                 cell.appendChild(prof_img);
                 var id = document.createElement('p');
-                id.class="id";
+                id.className="id";
                 id.innerHTML = '@' + this.response[i].account.username;
                 cell.appendChild(id);
                 cell.innerHTML += this.response[i].content;
