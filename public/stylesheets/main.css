@@ -89,3 +89,7 @@ body {
 .content {
     display: block;
 }
+
+.label {
+    color: white;
+}
