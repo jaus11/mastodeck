@@ -45,7 +45,7 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            var main = getElementByNumber(document.getColumnByName(field_name), column_number).children[1];
+            var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
             while (main.firstChild) {
                 main.removeChild(main.firstChild);
             }
