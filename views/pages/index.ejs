@@ -30,7 +30,7 @@
             Array.prototype.forEach.call(main.children, function(child){
                 if(child.id=="cell")
                     main.removeChild(child);
-            }
+            });
 
             this.response.forEach(function(data) {
                 var cell = document.createElement('div');
