@@ -85,7 +85,7 @@
 
         var script = document.createElement('script');
         script.type = "text/javascript";
-        script.innerHTML = "load(" + "home" + "," + String(columns.children.length+1) + ");";
+        script.innerHTML = "load(" + \""home\"" + "," + String(columns.children.length+1) + ");";
         newColumn.appendChild(script);
 
         columns.appendChild(newColumn);
