@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
     var req = new XMLHttpRequest();
-    req.open("get","<%= api_url %>",true);
+    req.open("get","<%= api_url %>"+"timelines/home",true);
     req.responseType = "json" ;
     req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
     req.onload = function() {
