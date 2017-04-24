@@ -13,7 +13,7 @@
         console.log( this.response );
         var home=document.getElementsByName('home');
         for (var i = 0; i < this.response.length; i++) {
-            var cell = createElement('div');
+            var cell = document.createElement('div');
             cell.id = 'cell';
             cell.appendChild(this.response[i].content);
             home.appendChild(cell);
