@@ -49,52 +49,53 @@ app.get('/', function(request, response) {
                 timeout_ms: 60 * 1000,
                 api_url: 'https://' + request.cookies.instance + '/api/v1/',
             })
+            response.render('pages/index',{access_token: request.cookies.access_token,api_url: 'https://' + request.cookies.instance + '/api/v1/'});
 
-            var toots_public = []
-            var toots_home = []
-            var toots_local = []
-
-            M.get('timelines/public', function(err, data, res) {
-                if(!err){
-                    for (key in data) {
-                        var toot = {
-                            id : data[key].account.username,
-                            profile_img : data[key].account.avatar,
-                            content : data[key].content
-                        };
-                        toots_public.push(toot);
-                    }
-                    response.locals.toots_public = toots_public;
-                    M.get('timelines/home', function(err, data, res) {
-                        jsonfile.writeFileSync("public/test.json",data,{encoding: 'utf-8', spaces: 2});
-                        if(!err){
-                            for (key in data) {
-                                var toot = {
-                                    id : data[key].account.username,
-                                    profile_img : data[key].account.avatar,
-                                    content : data[key].content
-                                };
-                                toots_home.push(toot);
-                            }
-                            response.locals.toots_home = toots_home;
-                            M.get('timelines/public?local=on', function(err, data, res) {
-                                if(!err){
-                                    for (key in data) {
-                                        var toot = {
-                                            id : data[key].account.username,
-                                            profile_img : data[key].account.avatar,
-                                            content : data[key].content
-                                        };
-                                        toots_local.push(toot);
-                                    }
-                                    response.locals.toots_local = toots_local;
-                                    response.render('pages/index');
-                                }
-                            })
-                        }
-                    })
-                }
-            })
+            // var toots_public = []
+            // var toots_home = []
+            // var toots_local = []
+            //
+            // M.get('timelines/public', function(err, data, res) {
+            //     if(!err){
+            //         for (key in data) {
+            //             var toot = {
+            //                 id : data[key].account.username,
+            //                 profile_img : data[key].account.avatar,
+            //                 content : data[key].content
+            //             };
+            //             toots_public.push(toot);
+            //         }
+            //         response.locals.toots_public = toots_public;
+            //         M.get('timelines/home', function(err, data, res) {
+            //             jsonfile.writeFileSync("public/test.json",data,{encoding: 'utf-8', spaces: 2});
+            //             if(!err){
+            //                 for (key in data) {
+            //                     var toot = {
+            //                         id : data[key].account.username,
+            //                         profile_img : data[key].account.avatar,
+            //                         content : data[key].content
+            //                     };
+            //                     toots_home.push(toot);
+            //                 }
+            //                 response.locals.toots_home = toots_home;
+            //                 M.get('timelines/public?local=on', function(err, data, res) {
+            //                     if(!err){
+            //                         for (key in data) {
+            //                             var toot = {
+            //                                 id : data[key].account.username,
+            //                                 profile_img : data[key].account.avatar,
+            //                                 content : data[key].content
+            //                             };
+            //                             toots_local.push(toot);
+            //                         }
+            //                         response.locals.toots_local = toots_local;
+            //                         response.render('pages/index');
+            //                     }
+            //                 })
+            //             }
+            //         })
+            //     }
+            // })
         }
     }
 });
