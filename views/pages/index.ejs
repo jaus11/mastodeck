@@ -65,14 +65,15 @@
 
     function getElementByNumber(elements,number){
         console.log("number is "+ number);
+        var correct_element = elements[0];
         elements.forEach(function(element){
             console.log("element : " + element.getAttribute('number'));
             if(element.getAttribute('number')==number){
                 console.log(element.getAttribute('number') + " is correct!");
-                return element;
+                return correct_element=element;
             }
         });
-        return elements[0];
+        return correct_element;
     }
     function addColumn(){
         var columns = document.getElementById("columns");
