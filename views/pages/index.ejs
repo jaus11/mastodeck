@@ -149,6 +149,8 @@
     function addColumn(field_name){
         var columns = document.getElementById("columns");
 
+        console.log(columns.id);
+
         var newColumn = document.createElement('div');
         newColumn.id = "column";
         newColumn.setAttribute('name',field_name);
