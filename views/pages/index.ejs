@@ -42,7 +42,7 @@
             default:
                 field_url="";
         }
-        req.open("get","<%= api_url %>streaming/"+field_url+"?"+url[column.getAttribute(number)].prev.split('?')[1],true);
+        req.open("get","<%= api_url %>streaming/"+field_url+"?"+url[column.getAttribute('number')].prev.split('?')[1],true);
         req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         var main = column.children[1];
