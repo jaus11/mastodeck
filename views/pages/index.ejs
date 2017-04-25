@@ -152,8 +152,7 @@
         var newColumn = document.createElement('div');
         newColumn.id = "column";
         newColumn.setAttribute('name',field_name);
-        var children = columns.children;
-        if(children!=null)newColumn.setAttribute('number',children.length+1);
+        if(columns.childElementCount!=0)newColumn.setAttribute('number',columns.children.length+1);
         else newColumn.setAttribute('number',"1")
 
         var top = document.createElement('div');
