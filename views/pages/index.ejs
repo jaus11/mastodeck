@@ -46,20 +46,11 @@
         req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onreadystatechange = function() {
-            // var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
-            // for(var i=this.response.length-1;i>=0;i--) {
-            //     main.insertBefore(createTootCell(this.response[i]),main.firstChild);
-            // }
             if(this.readyState == 3) {
-                // var link = this.getResponseHeader("Link");
-                // var header = link.split(',');
-                // var next = header[0].split(';')[0].replace("<","").replace(">","");
-                // var prev = header[1].split(';')[0].replace(" <","").replace(">","");
-                // url[column_number]={next: next, prev: prev};
                 var res = this.response.split('\n');
                 var isContent = false;
                 for(var line in res){
-                    if(line=="event: update"){
+                    if(line=="event: update "){
                         isContent=true;
                     }else if(isContent){
                         var data = JSON.parse(line.substr(6));
