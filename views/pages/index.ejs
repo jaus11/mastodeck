@@ -51,9 +51,9 @@
                 var res = this.response.split('\n');
                 var isContent = false;
                 for(var i=0;i<res.length;i++){
-                    if(res[i]=="event: update" || res[i]=""){
+                    if(res[i]=="event: update"){
                         isContent=true;
-                    }else if(isContent){
+                    }else if(isContent && res[i]!=""){
                         try{
                             var data = JSON.parse(res[i].substr(6));
                             main.insertBefore(createTootCell(data),main.firstChild);
