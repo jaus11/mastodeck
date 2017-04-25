@@ -33,19 +33,19 @@
             var field_url;
             switch (field_name) {
                 case "home":
-                    field_url="user";//"timelines/home";
+                    field_url="timelines/home";//"user";
                     break;
                 case "local":
-                    field_url="public?local=on";//"timelines/public?local=on";
+                    field_url="timelines/public?local=on";//"public?local=on";
                     break;
 
                 case "public":
-                    field_url="public";//"timelines/public";
+                    field_url="timelines/public";//"public";
                     break;
                 default:
                     field_url="";
             }
-            req.open("get","<%= api_url %>"+"streaming/"+field_url,true);
+            req.open("get","<%= api_url %>"+field_url,true);//"streaming/"+
         }
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
