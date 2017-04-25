@@ -55,6 +55,7 @@
                 //console.log(column.getAttribute('name') + " : " + res.length);
                 // console.log(count);
                 if(column.getAttribute('name')=='public') {
+                    console.log(count);
                     if(count>=5) req.onreadystatechange = function() {};
                     count++;
                     console.log(this.response);
