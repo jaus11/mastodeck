@@ -53,7 +53,7 @@
             if(this.readyState == 3) {
                 var res = this.response.substr(size).split('\n');
                 //console.log(column.getAttribute('name') + " : " + res.length);
-                console.log(count);
+                // console.log(count);
                 if(column.getAttribute('name')=='public') {
                     if(count>=5) req.onreadystatechange = function() {};
                     count++;
