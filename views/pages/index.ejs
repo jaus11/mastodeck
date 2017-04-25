@@ -53,8 +53,10 @@
             if(this.readyState==4){
                 console.log(this.response);
             }
-            var res  = this.response.substr(size).split("\n") ;
-            console.log(res) ;
+            if(this.readyState == 3) {
+				var res  = this.response.substr(size).split("\n");
+				console.log(res) ;
+            }
         }
         req.onerror = function() {
             console.log(this);
