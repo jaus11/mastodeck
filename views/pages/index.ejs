@@ -51,7 +51,7 @@
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
                 var res = this.response.substr(size).split('\n');
-                console.log(res.length);
+                console.log(column.getAttribute('name') + " : " + res.length);
                 var isContent = false;
                 for(var i=0;i<res.length;i++){
                     if(res[i]=="event: update"){
