@@ -28,7 +28,7 @@
     function load(field_name, column_number) {
         var req = new XMLHttpRequest();
         if(url[column_number]){
-            req.open("get",url[column_number].next,true);
+            req.open("get",url[column_number].prev,true);
         } else {
             var field_url;
             switch (field_name) {
