@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
-    //var url
+    var url;
     function loadColumn(column) {
         var req = new XMLHttpRequest();
         var field_url;
@@ -49,8 +49,8 @@
             var header = this.getResponseHeader("Link").split(',');
             var next = header[0].split(';')[0].replace("<","").replace(">","");
             var prev = header[1].split(';')[0].replace(" <","").replace(">","");
-            console.log("next : " + next);
-            console.log("prev : " + prev);
+            url[column_number]={next: next, prev: prev};
+            console.log(url);
             var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
             while (main.firstChild) {
                 main.removeChild(main.firstChild);
