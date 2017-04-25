@@ -160,7 +160,7 @@
 
         var top = document.createElement('div');
         top.id="top";
-        top.innerHTML = field_name;
+        top.innerHTML = field_name.charAt(0).toUppercase()+field_name.substr(1);
         newColumn.appendChild(top);
 
         var toot_field = document.createElement('div');
@@ -187,30 +187,6 @@
         <input type="button" value="ログアウト" onclick="location.href='/logout'">
     </div>
     <div id="columns">
-        <!-- <div id="column" name="home" number="1">
-            <div id="top">Home</div>
-            <div id="toot_field">
-                <script type="text/javascript">
-                load("home",1);
-                </script>
-            </div>
-        </div>
-        <div id="column" name="local" number="2">
-            <div id="top">Local</div>
-            <div id="toot_field">
-                <script type="text/javascript">
-                load("local",2);
-                </script>
-            </div>
-        </div>
-        <div id="column" name="public" number="3">
-            <div id="top">Public</div>
-            <div id="toot_field">
-                <script type="text/javascript">
-                load("public",3);
-                </script>
-            </div>
-        </div> -->
         <script type="text/javascript">
         addColumn("home");
         addColumn("local");
