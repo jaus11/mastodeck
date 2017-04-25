@@ -83,7 +83,7 @@
                 content.innerHTML = this.response[i].content;
                 cell.appendChild(content);
 
-                main.insertFirst(cell);
+                main.insertBefore(cell,main.firstChild);
             }
         }
         req.onerror = function() {
