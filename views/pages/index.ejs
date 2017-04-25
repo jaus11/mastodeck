@@ -51,41 +51,39 @@
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
             var link = this.getResponseHeader("Link");
-            console.log(link);
-            var header = link.split(',');
-            var next = header[0].split(';')[0].replace("<","").replace(">","");
-            var prev = header[1].split(';')[0].replace(" <","").replace(">","");
-            url[column_number]={next: next, prev: prev};
-            var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
-            // while (main.firstChild) {
-            //     main.removeChild(main.firstChild);
-            // }
+            if(link){
+                var header = link.split(',');
+                var next = header[0].split(';')[0].replace("<","").replace(">","");
+                var prev = header[1].split(';')[0].replace(" <","").replace(">","");
+                url[column_number]={next: next, prev: prev};
+                var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
 
-            for(var i=this.response.length-1;i>=0;i--) {
-                var cell = document.createElement('div');
-                cell.id = 'cell';
+                for(var i=this.response.length-1;i>=0;i--) {
+                    var cell = document.createElement('div');
+                    cell.id = 'cell';
 
-                var prof_img = document.createElement('img');
-                prof_img.src=this.response[i].account.avatar;
-                prof_img.className="prof_img";
-                cell.appendChild(prof_img);
+                    var prof_img = document.createElement('img');
+                    prof_img.src=this.response[i].account.avatar;
+                    prof_img.className="prof_img";
+                    cell.appendChild(prof_img);
 
-                var name = document.createElement('h4');
-                name.innerHTML = this.response[i].account.display_name;
-                name.className = "username";
-                cell.appendChild(name);
+                    var name = document.createElement('h4');
+                    name.innerHTML = this.response[i].account.display_name;
+                    name.className = "username";
+                    cell.appendChild(name);
 
-                var id = document.createElement('p');
-                id.className="id";
-                id.innerHTML = '@' + this.response[i].account.username;
-                cell.appendChild(id);
+                    var id = document.createElement('p');
+                    id.className="id";
+                    id.innerHTML = '@' + this.response[i].account.username;
+                    cell.appendChild(id);
 
-                var content = document.createElement('div');
-                content.className = "content";
-                content.innerHTML = this.response[i].content;
-                cell.appendChild(content);
+                    var content = document.createElement('div');
+                    content.className = "content";
+                    content.innerHTML = this.response[i].content;
+                    cell.appendChild(content);
 
-                main.insertBefore(cell,main.firstChild);
+                    main.insertBefore(cell,main.firstChild);
+                }
             }
         }
         req.onerror = function() {
