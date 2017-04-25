@@ -154,8 +154,8 @@
         var newColumn = document.createElement('div');
         newColumn.id = "column";
         newColumn.setAttribute('name',field_name);
-        if(columns.childElementCount!=0)newColumn.setAttribute('number',columns.children.length+1);
-        else newColumn.setAttribute('number',"1")
+        newColumn.setAttribute('number',columns.children.length+1);
+        //else newColumn.setAttribute('number',"1")
 
         var top = document.createElement('div');
         top.id="top";
@@ -170,16 +170,6 @@
         load(newColumn);
     }
 
-    function refresh(){
-        var columns = document.getElementById("columns");
-        Array.prototype.forEach.call(columns.children,function(column){
-            load(column.getAttribute("name"),column.getAttribute("number"));
-        });
-    }
-
-    addColumn("home");
-    addColumn("local");
-    addColumn("public");
     </script>
 </head>
 <body>
@@ -220,6 +210,11 @@
                 </script>
             </div>
         </div> -->
+        <script type="text/javascript">
+        addColumn("home");
+        addColumn("local");
+        addColumn("public");
+        </script>
     </div>
 </body>
 </html>
