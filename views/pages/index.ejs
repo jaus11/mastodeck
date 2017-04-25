@@ -51,6 +51,7 @@
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
                 var res = this.response.substr(size).split('\n');
+                console.log(res.length);
                 var isContent = false;
                 for(var i=0;i<res.length;i++){
                     if(res[i]=="event: update"){
@@ -65,7 +66,7 @@
                         isContent=false;
                     }
                 }
-                size=this.response.length;
+                //size=this.response.length;
             }
         }
         req.onerror = function() {
