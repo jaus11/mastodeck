@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
-    var url = {};
+    //var url = {};
     function loadColumn(column) {
         var req = new XMLHttpRequest();
         var field_url;
@@ -43,17 +43,10 @@
                 field_url="";
         }
         var urls = url[column.getAttribute('number')];
-        req.open("get","<%= api_url %>streaming/"+field_url+"?"+urls.prev.split('?')[1]+"?"+urls.next.split('?')[1],true);
+        req.open("get","<%= api_url %>streaming/"+field_url,true);//+"?"+urls.prev.split('?')[1]+"?"+urls.next.split('?')[1]
         req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         var main = column.children[1];
-        req.onload = function() {
-            var link = this.getResponseHeader("Link");
-            var header = link.split(',');
-            var next = header[0].split(';')[0].replace("<","").replace(">","");
-            var prev = header[1].split(';')[0].replace(" <","").replace(">","");
-            url[column.getAttribute('number')]={next: next, prev: prev};
-        }
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
                 var res = this.response.split('\n');
@@ -100,11 +93,11 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            var link = this.getResponseHeader("Link");
-            var header = link.split(',');
-            var next = header[0].split(';')[0].replace("<","").replace(">","");
-            var prev = header[1].split(';')[0].replace(" <","").replace(">","");
-            url[column.getAttribute('number')]={next: next, prev: prev};
+            // var link = this.getResponseHeader("Link");
+            // var header = link.split(',');
+            // var next = header[0].split(';')[0].replace("<","").replace(">","");
+            // var prev = header[1].split(';')[0].replace(" <","").replace(">","");
+            // url[column.getAttribute('number')]={next: next, prev: prev};
 
             var main = column.children[1];
             for(var i=this.response.length-1;i>=0;i--) {
@@ -145,19 +138,9 @@
         return cell;
     }
 
-    function getColumnByNumber(elements,number){
-        var correct_element = elements[0];
-        elements.forEach(function(element){
-            if(element.getAttribute('number')==number){
-                return correct_element=element;
-            }
-        });
-        return correct_element;
-    }
     function addColumn(field_name){
         var columns = document.getElementById("columns");
 
-        console.log(columns.id);
 
         var newColumn = document.createElement('div');
         newColumn.id = "column";
