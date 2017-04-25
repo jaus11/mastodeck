@@ -46,7 +46,11 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            console.log(this.getResponseHeader("Link"));
+            var header = this.getResponseHeader("Link").split(',');
+            var next = header[0].split(';')[0].replice("<","").replice(">","");
+            var prev = header[1].split(';')[0].replice("<","").replice(">","");
+            console.log("next : " + next);
+            console.log("prev : " + prev);
             var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
             while (main.firstChild) {
                 main.removeChild(main.firstChild);
