@@ -50,11 +50,13 @@
             // for(var i=this.response.length-1;i>=0;i--) {
             //     main.insertBefore(createTootCell(this.response[i]),main.firstChild);
             // }
-            if(this.readyState==4){
-                console.log(this.response);
-            }
             if(this.readyState == 3) {
-                console.log(this.response);
+                var res = this.response.split('\n');
+                if(res[0]=="event: update"){
+                    var data = JSON.parse(res[1].substr(6));
+                    var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
+                    main.insertBefore(createTootCell(data),main.firstChild);
+                }
             }
         }
         req.onerror = function() {
