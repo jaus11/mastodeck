@@ -46,10 +46,11 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onreadystatechange = function() {
-            var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
-            for(var i=this.response.length-1;i>=0;i--) {
-                main.insertBefore(createTootCell(this.response[i]),main.firstChild);
-            }
+            // var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
+            // for(var i=this.response.length-1;i>=0;i--) {
+            //     main.insertBefore(createTootCell(this.response[i]),main.firstChild);
+            // }
+            console.log(this.response);
         }
         req.onerror = function() {
             console.log(this);
