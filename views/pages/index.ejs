@@ -54,8 +54,12 @@
                     if(res[i]=="event: update"){
                         isContent=true;
                     }else if(isContent){
-                        var data = JSON.parse(res[i].substr(6));
-                        main.insertBefore(createTootCell(data),main.firstChild);
+                        try{
+                            var data = JSON.parse(res[i].substr(6));
+                            main.insertBefore(createTootCell(data),main.firstChild);
+                        }catch(e){
+                            console.log(res[i]);
+                        }
                         isContent=false;
                     }
                 }
