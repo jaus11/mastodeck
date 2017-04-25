@@ -52,6 +52,7 @@
             // }
             if(this.readyState == 3) {
                 var res = this.response.split('\n');
+                console.log(res.length);
                 if(res[0]=="event: update"){
                     var data = JSON.parse(res[1].substr(6));
                     var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
