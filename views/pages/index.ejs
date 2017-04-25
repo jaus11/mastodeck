@@ -47,6 +47,9 @@
         req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         var main = column.children[1];
+        req.onload = function () {
+            console.log("hello");
+        }
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
                 var res = this.response.split('\n');
