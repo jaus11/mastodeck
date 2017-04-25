@@ -48,11 +48,14 @@
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         var main = column.children[1];
         var size=0;
+        var count=0;
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
+                if(count>=4) req.onreadystatechange = function() {};
+                count++;
                 var res = this.response.substr(size).split('\n');
                 //console.log(column.getAttribute('name') + " : " + res.length);
-                if(column.getAttribute('name')=='home') console.log(this.response);
+                if(column.getAttribute('name')=='public') console.log(this.response);
                 var isContent = false;
                 for(var i=0;i<res.length;i++){
                     if(res[i]=="event: update"){
@@ -67,7 +70,7 @@
                         isContent=false;
                     }
                 }
-                size=this.response.length;
+                //size=this.response.length;
             }
         }
         req.onerror = function() {
