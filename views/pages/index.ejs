@@ -57,6 +57,8 @@
                         var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
                         main.insertBefore(createTootCell(data),main.firstChild);
                         isContent=false;
+                    }else{
+                        console.log(line);
                     }
                 }
             }
