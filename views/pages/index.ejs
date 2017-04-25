@@ -50,7 +50,9 @@
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
-            var header = this.getResponseHeader("Link").split(',');
+            var link = this.getResponseHeader("Link");
+            console.log(link);
+            var header = link.split(',');
             var next = header[0].split(';')[0].replace("<","").replace(">","");
             var prev = header[1].split(';')[0].replace(" <","").replace(">","");
             url[column_number]={next: next, prev: prev};
