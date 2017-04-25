@@ -25,10 +25,10 @@
         }
     }
 
-    function stream(field_name, column_number){
+    function stream(column){
         var req = new XMLHttpRequest();
         var field_url;
-        switch (field_name) {
+        switch (column.getAttribute(name)) {
             case "home":
                 field_url="user";
                 break;
@@ -37,15 +37,15 @@
                 break;
 
             case "public":
-                field_url="public?a=0";
+                field_url="public";
                 break;
             default:
                 field_url="";
         }
-        req.open("get","<%= api_url %>streaming/"+field_url+"?"+url[column_number].prev.split('?')[1],true);
+        req.open("get","<%= api_url %>streaming/"+field_url+"?"+url[column.getAttribute(number)].prev.split('?')[1],true);
         req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
-        var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
+        var main = column.children[1];
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
                 var res = this.response.split('\n');
@@ -71,40 +71,38 @@
         req.send() ;
     }
 
-    function load(field_name, column_number) {
+    function load(column) {
         var req = new XMLHttpRequest();
         var field_url;
-        switch (field_name) {
+        switch (column.getAttribute('name')) {
             case "home":
-            field_url="timelines/home";//"user";
+            field_url="timelines/home";
             break;
             case "local":
-            field_url="timelines/public?local=on";//"public?local=on";
+            field_url="timelines/public?local=on";
             break;
 
             case "public":
-            field_url="timelines/public";//"public";
+            field_url="timelines/public";
             break;
             default:
             field_url="";
         }
-        req.open("get","<%= api_url %>"+field_url,true);//"streaming/"+
+        req.open("get","<%= api_url %>"+field_url,true);
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
             var link = this.getResponseHeader("Link");
-            if(link){
-                var header = link.split(',');
-                var next = header[0].split(';')[0].replace("<","").replace(">","");
-                var prev = header[1].split(';')[0].replace(" <","").replace(">","");
-                url[column_number]={next: next, prev: prev};
-                var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
+            var header = link.split(',');
+            var next = header[0].split(';')[0].replace("<","").replace(">","");
+            var prev = header[1].split(';')[0].replace(" <","").replace(">","");
+            url[column.getAttribute('number')]={next: next, prev: prev};
 
-                for(var i=this.response.length-1;i>=0;i--) {
-                    main.insertBefore(createTootCell(this.response[i]),main.firstChild);
-                }
+            var main = column.children[1];
+            for(var i=this.response.length-1;i>=0;i--) {
+                main.insertBefore(createTootCell(this.response[i]),main.firstChild);
             }
-            stream(field_name, column_number);
+            stream(column);
         }
         req.onerror = function() {
             console.log(this);
@@ -166,7 +164,7 @@
         newColumn.appendChild(toot_field);
 
         columns.appendChild(newColumn);
-        load(field_name,String(columns.children.length));
+        load(newColumn);
     }
 
     function refresh(){
@@ -176,7 +174,9 @@
         });
     }
 
-    //setInterval("refresh()",2000);
+    addColumn("home");
+    addColumn("local");
+    addColumn("public");
     </script>
 </head>
 <body>
@@ -193,7 +193,7 @@
         <input type="button" value="ログアウト" onclick="location.href='/logout'">
     </div>
     <div id="columns">
-        <div id="column" name="home" number="1">
+        <!-- <div id="column" name="home" number="1">
             <div id="top">Home</div>
             <div id="toot_field">
                 <script type="text/javascript">
@@ -216,7 +216,7 @@
                 load("public",3);
                 </script>
             </div>
-        </div>
+        </div> -->
     </div>
 </body>
 </html>
