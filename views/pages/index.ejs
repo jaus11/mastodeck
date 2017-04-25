@@ -43,16 +43,14 @@
                 field_url="";
         }
         //var urls = url[column.getAttribute('number')];
-        req.open("get","<%= api_url %>streaming/"+field_url,true);//+"?"+urls.prev.split('?')[1]+"?"+urls.next.split('?')[1]
+        req.open("get","<%= api_url %>streaming/"+field_url+"?"+urls.prev.split('?')[1]+"?"+urls.next.split('?')[1],true);
         req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         var main = column.children[1];
-        req.onload = function () {
-            console.log("hello");
-        }
+        var size=0;
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
-                var res = this.response.split('\n');
+                var res = this.response.substr(size).split('\n');
                 var isContent = false;
                 for(var i=0;i<res.length;i++){
                     if(res[i]=="event: update"){
@@ -67,6 +65,7 @@
                         isContent=false;
                     }
                 }
+                size=this.response.length;
             }
         }
         req.onerror = function() {
@@ -106,7 +105,6 @@
             for(var i=this.response.length-1;i>=0;i--) {
                 main.insertBefore(createTootCell(this.response[i]),main.firstChild);
             }
-            console.log("hello");
             stream(column);
         }
         req.onerror = function() {
