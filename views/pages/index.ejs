@@ -48,7 +48,7 @@
         req.onload = function() {
             var header = this.getResponseHeader("Link").split(',');
             var next = header[0].split(';')[0].replace("<","").replace(">","");
-            var prev = header[1].split(';')[0].replace("<","").replace(">","");
+            var prev = header[1].split(';')[0].replace(" <","").replace(">","");
             console.log("next : " + next);
             console.log("prev : " + prev);
             var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
