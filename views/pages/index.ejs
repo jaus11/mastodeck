@@ -47,6 +47,13 @@
         req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         var main = column.children[1];
+        req.onload = function() {
+            var link = this.getResponseHeader("Link");
+            var header = link.split(',');
+            var next = header[0].split(';')[0].replace("<","").replace(">","");
+            var prev = header[1].split(';')[0].replace(" <","").replace(">","");
+            url[column.getAttribute('number')]={next: next, prev: prev};
+        }
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
                 var res = this.response.split('\n');
@@ -155,7 +162,7 @@
         var newColumn = document.createElement('div');
         newColumn.id = "column";
         newColumn.setAttribute('name',field_name);
-        newColumn.setAttribute('number',columns.children.length+1);
+        newColumn.setAttribute('number',columns.childElementCount+1);
         //else newColumn.setAttribute('number',"1")
 
         var top = document.createElement('div');
