@@ -43,7 +43,7 @@
                 field_url="";
         }
         req.open("get","<%= api_url %>streaming/"+field_url+"?"+url[column_number].prev.split('?')[1],true);
-        req.responseType = "json" ;
+        req.responseType = "text" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onreadystatechange = function() {
             // var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
