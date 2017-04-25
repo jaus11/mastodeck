@@ -50,9 +50,11 @@
             // for(var i=this.response.length-1;i>=0;i--) {
             //     main.insertBefore(createTootCell(this.response[i]),main.firstChild);
             // }
-            if(this.readyState==3){
+            if(this.readyState==4){
                 console.log(this.response);
             }
+            var res  = this.response.substr(size).split("\n") ;
+            console.log(res) ;
         }
         req.onerror = function() {
             console.log(this);
