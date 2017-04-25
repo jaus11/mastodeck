@@ -27,22 +27,26 @@
 
     function load(field_name, column_number) {
         var req = new XMLHttpRequest();
-        var field_url;
-        switch (field_name) {
-            case "home":
-                field_url="timelines/home";
-                break;
-            case "local":
-                field_url="timelines/public?local=on";
-                break;
+        if(url[column_number]){
+            req.open("get",url[column_number].next,true);
+        } else {
+            var field_url;
+            switch (field_name) {
+                case "home":
+                    field_url="timelines/home";
+                    break;
+                case "local":
+                    field_url="timelines/public?local=on";
+                    break;
 
-            case "public":
-                field_url="timelines/public";
-                break;
-            default:
-                field_url="";
+                case "public":
+                    field_url="timelines/public";
+                    break;
+                default:
+                    field_url="";
+            }
+            req.open("get","<%= api_url %>"+field_url,true);
         }
-        req.open("get","<%= api_url %>"+field_url,true);
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
@@ -50,13 +54,12 @@
             var next = header[0].split(';')[0].replace("<","").replace(">","");
             var prev = header[1].split(';')[0].replace(" <","").replace(">","");
             url[column_number]={next: next, prev: prev};
-            console.log(url);
             var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
-            while (main.firstChild) {
-                main.removeChild(main.firstChild);
-            }
+            // while (main.firstChild) {
+            //     main.removeChild(main.firstChild);
+            // }
 
-            for(var i=0;i<this.response.length;i++) {
+            for(var i=this.response.length-1;i>=0;i--) {
                 var cell = document.createElement('div');
                 cell.id = 'cell';
 
@@ -80,7 +83,7 @@
                 content.innerHTML = this.response[i].content;
                 cell.appendChild(content);
 
-                main.appendChild(cell);
+                main.insertFirst(cell);
             }
         }
         req.onerror = function() {
