@@ -45,7 +45,7 @@
                 default:
                     field_url="";
             }
-            req.open("get","<%= api_url %>"+field_url,true);
+            req.open("get","<%= api_url %>"+"streaming/"+field_url,true);
         }
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
