@@ -50,6 +50,7 @@
                 var res = this.response.split('\n');
                 var isContent = false;
                 for(var line in res){
+                    console.log(line);
                     if(line=="event: update "){
                         isContent=true;
                     }else if(isContent){
@@ -57,8 +58,6 @@
                         var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
                         main.insertBefore(createTootCell(data),main.firstChild);
                         isContent=false;
-                    }else{
-                        console.log(line);
                     }
                 }
             }
