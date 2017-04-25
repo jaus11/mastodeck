@@ -25,28 +25,56 @@
         }
     }
 
+    function stream(field_name, column_number){
+        var req = new XMLHttpRequest();
+        var field_url;
+        switch (field_name) {
+            case "home":
+                field_url="user";
+                break;
+            case "local":
+                field_url="public?local=on";
+                break;
+
+            case "public":
+                field_url="public";
+                break;
+            default:
+                field_url="";
+        }
+        req.open("get","<%= api_url %>/streaming/"+field_url+"?"+url[column_number].prev.split('?')[1],true);
+        req.responseType = "json" ;
+        req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
+        req.onreadystatechange = function() {
+            var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
+            for(var i=this.response.length-1;i>=0;i--) {
+                main.insertBefore(createTootCell(this.response[i]),main.firstChild);
+            }
+        }
+        req.onerror = function() {
+            console.log(this);
+        }
+        req.send() ;
+    }
+
     function load(field_name, column_number) {
         var req = new XMLHttpRequest();
-        if(url[column_number]){
-            req.open("get",url[column_number].prev,true);
-        } else {
-            var field_url;
-            switch (field_name) {
-                case "home":
-                    field_url="timelines/home";//"user";
-                    break;
-                case "local":
-                    field_url="timelines/public?local=on";//"public?local=on";
-                    break;
+        var field_url;
+        switch (field_name) {
+            case "home":
+            field_url="timelines/home";//"user";
+            break;
+            case "local":
+            field_url="timelines/public?local=on";//"public?local=on";
+            break;
 
-                case "public":
-                    field_url="timelines/public";//"public";
-                    break;
-                default:
-                    field_url="";
-            }
-            req.open("get","<%= api_url %>"+field_url,true);//"streaming/"+
+            case "public":
+            field_url="timelines/public";//"public";
+            break;
+            default:
+            field_url="";
         }
+        req.open("get","<%= api_url %>"+field_url,true);//"streaming/"+
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
@@ -59,37 +87,42 @@
                 var main = getColumnByNumber(document.getElementsByName(field_name), column_number).children[1];
 
                 for(var i=this.response.length-1;i>=0;i--) {
-                    var cell = document.createElement('div');
-                    cell.id = 'cell';
-
-                    var prof_img = document.createElement('img');
-                    prof_img.src=this.response[i].account.avatar;
-                    prof_img.className="prof_img";
-                    cell.appendChild(prof_img);
-
-                    var name = document.createElement('h4');
-                    name.innerHTML = this.response[i].account.display_name;
-                    name.className = "username";
-                    cell.appendChild(name);
-
-                    var id = document.createElement('p');
-                    id.className="id";
-                    id.innerHTML = '@' + this.response[i].account.username;
-                    cell.appendChild(id);
-
-                    var content = document.createElement('div');
-                    content.className = "content";
-                    content.innerHTML = this.response[i].content;
-                    cell.appendChild(content);
-
-                    main.insertBefore(cell,main.firstChild);
+                    main.insertBefore(createTootCell(this.response[i]),main.firstChild);
                 }
             }
+            stream(field_name, column_number);
         }
         req.onerror = function() {
             console.log(this);
         }
-        req.send() ;
+        req.send();
+    }
+
+    function createTootCell(data){
+        var cell = document.createElement('div');
+        cell.id = 'cell';
+
+        var prof_img = document.createElement('img');
+        prof_img.src=data.account.avatar;
+        prof_img.className="prof_img";
+        cell.appendChild(prof_img);
+
+        var name = document.createElement('h4');
+        name.innerHTML = data.account.display_name;
+        name.className = "username";
+        cell.appendChild(name);
+
+        var id = document.createElement('p');
+        id.className="id";
+        id.innerHTML = '@' + data.account.username;
+        cell.appendChild(id);
+
+        var content = document.createElement('div');
+        content.className = "content";
+        content.innerHTML = data.content;
+        cell.appendChild(content);
+
+        return cell;
     }
 
     function getColumnByNumber(elements,number){
