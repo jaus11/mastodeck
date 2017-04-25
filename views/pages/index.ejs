@@ -50,7 +50,7 @@
             if(this.readyState == 3) {
                 var res = this.response.split('\n');
                 var isContent = false;
-                for(int i=0;i<res.length;i++){
+                for(var i=0;i<res.length;i++){
                     if(res[i]=="event: update"){
                         isContent=true;
                     }else if(isContent){
