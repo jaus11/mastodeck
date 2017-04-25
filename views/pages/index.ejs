@@ -49,18 +49,18 @@
         var main = column.children[1];
         var size=0;
         var count=0;
+        var isContent = false;
         req.onreadystatechange = function() {
             if(this.readyState == 3) {
                 var res = this.response.substr(size).split('\n');
                 //console.log(column.getAttribute('name') + " : " + res.length);
                 // console.log(count);
-                if(column.getAttribute('name')=='public') {
-                    console.log(count);
-                    if(count>=5) req.onreadystatechange = function() {};
-                    count++;
-                    console.log(this.response);
-                }
-                var isContent = false;
+                // if(column.getAttribute('name')=='public') {
+                //     console.log(count);
+                //     if(count>=5) req.onreadystatechange = function() {};
+                //     count++;
+                //     console.log(this.response);
+                // }
                 for(var i=0;i<res.length;i++){
                     if(res[i]=="event: update"){
                         isContent=true;
@@ -74,7 +74,7 @@
                         isContent=false;
                     }
                 }
-                //size=this.response.length;
+                size=this.response.length;
             }
         }
         req.onerror = function() {
