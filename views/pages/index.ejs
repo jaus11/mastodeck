@@ -52,7 +52,7 @@
             if(this.readyState == 3) {
                 var res = this.response.substr(size).split('\n');
                 //console.log(column.getAttribute('name') + " : " + res.length);
-                if(column.getAttribute('name')=='home') console.log(response);
+                if(column.getAttribute('name')=='home') console.log(this.response);
                 var isContent = false;
                 for(var i=0;i<res.length;i++){
                     if(res[i]=="event: update"){
