@@ -154,9 +154,16 @@
 
     function createPanel(){
         var panel = document.createElement('div');
-        panel.className = "panel";
+        panel.id = "panel";
         panel.style.zIndex=1;
         document.body.appendChild(panel);
+    }
+
+    function openTootField(){
+        var menu = document.getElementById('menu');
+        var toot_field = document.createElement('div');
+        panel.className = "toot_field";
+        menu.appendChild(toot_field);
     }
 
     </script>
@@ -164,7 +171,7 @@
 <body>
     <div id="menu">
         <!-- <input type="image" src="logout.png" value="ログアウト" onclick="location.href='/logout'"> -->
-        <input type="button" value="投稿" onclick="createPanel()">
+        <input type="button" value="投稿" onclick="openTootField()">
         <input type="button" value="検索" onclick="">
         <input type="button" value="アカウント追加" onclick="">
         <input type="button" value="プロフィール" onclick="">
