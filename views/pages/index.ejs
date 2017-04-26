@@ -6,24 +6,6 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
     var url = {};
-    function loadColumn(column) {
-        var req = new XMLHttpRequest();
-        var field_url;
-        switch (column.name) {
-            case "home":
-                field_url="timelines/home";
-                break;
-            case "local":
-                field_url="timelines/public?local=on";
-                break;
-
-            case "public":
-                field_url="timelines/public";
-                break;
-            default:
-                field_url="";
-        }
-    }
 
     function stream(column){
         var req = new XMLHttpRequest();
@@ -151,7 +133,6 @@
     function addColumn(field_name){
         var columns = document.getElementById("columns");
 
-
         var newColumn = document.createElement('div');
         newColumn.id = "column";
         newColumn.setAttribute('name',field_name);
@@ -171,12 +152,19 @@
         load(newColumn);
     }
 
+    function createPanel(){
+        var panel = document.createElement('div');
+        panel.className = "panel";
+        panel.style.zIndex=1;
+        document.body.appendChild(panel);
+    }
+
     </script>
 </head>
 <body>
     <div id="menu">
         <!-- <input type="image" src="logout.png" value="ログアウト" onclick="location.href='/logout'"> -->
-        <input type="button" value="投稿" onclick="">
+        <input type="button" value="投稿" onclick="createPanel()">
         <input type="button" value="検索" onclick="">
         <input type="button" value="アカウント追加" onclick="">
         <input type="button" value="プロフィール" onclick="">
