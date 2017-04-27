@@ -37,6 +37,7 @@ html,body {
     padding: 0px 0px 0px;
     /*width: 5%;*/
     height: 100%;
+    float: left;
     background-color: black;
     display: inline-block;
     vertical-align: top;
@@ -46,6 +47,7 @@ html,body {
     overflow-x:auto;
     overflow-y:hidden;
     width: auto;
+    float: right;
     height: 100%;
     white-space:nowrap;
     background-color: black;
