@@ -47,7 +47,7 @@ html,body {
     overflow-x:auto;
     overflow-y:hidden;
     width: auto;
-    float: right;
+    float: left;
     height: 100%;
     white-space:nowrap;
     background-color: black;
