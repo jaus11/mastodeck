@@ -165,6 +165,15 @@
         if(menu.childElementCount==1){
             var toot_menu = document.createElement('div');
             toot_menu.className = "toot_menu";
+
+            var toot_input_area = document.createElement('textarea');
+            toot_menu.appendChild(toot_input_area);
+
+            var toot_button = document.createElement("input");
+            toot_button.setAttribute('type','submit');
+            toot_button.setAttribute('value','toot');
+            toot_menu.appendChild(toot_button)
+
             menu.appendChild(toot_menu);
         } else {
             menu.removeChild(document.getElementsByClassName('toot_menu')[0]);
