@@ -44,12 +44,13 @@ app.get('/', function(request, response) {
                 });
             });
         } else {
-            // var M = new Masto({
-            //     access_token: request.cookies.access_token,
-            //     timeout_ms: 60 * 1000,
-            //     api_url: 'https://' + request.cookies.instance + '/api/v1/',
-            // })
-            response.render('pages/index',{access_token: request.cookies.access_token,api_url: 'https://' + request.cookies.instance + '/api/v1/'});
+            var M = new Masto({
+                access_token: request.cookies.access_token,
+                timeout_ms: 60 * 1000,
+                api_url: 'https://' + request.cookies.instance + '/api/v1/',
+            })
+            M.post('statuses',{status: 'hello!!!!'});
+            //response.render('pages/index',{access_token: request.cookies.access_token,api_url: 'https://' + request.cookies.instance + '/api/v1/'});
 
             // var toots_public = []
             // var toots_home = []
