@@ -161,6 +161,7 @@
 
     function openTootField(){
         var menu = document.getElementById('menu');
+        console.log(menu.getElementCount);
         if(menu.getElementCount==1){
             var toot_menu = document.createElement('div');
             toot_menu.className = "toot_menu";
