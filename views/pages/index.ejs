@@ -82,7 +82,7 @@
             default:
             field_url="";
         }
-        req.open("get","<%= api_url %>"+field_url,true);
+        req.open("get","<%= api_url %>"+field_url+'?limit=3',true);
         req.responseType = "json" ;
         req.setRequestHeader("Authorization","Bearer "+ "<%= access_token %>");
         req.onload = function() {
