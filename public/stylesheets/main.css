@@ -159,6 +159,7 @@ html,body {
     color: white;
     font-size: 100px;
     text-align: center;
+    margin: 0 auto;
 }
 
 .url_input {
