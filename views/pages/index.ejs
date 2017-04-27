@@ -161,16 +161,19 @@
 
     function openTootField(){
         var menu = document.getElementById('menu');
-        var toot_menu = document.createElement('div');
-        toot_menu.className = "toot_menu";
-        menu.appendChild(toot_menu);
+        if(menu.getElementCount==1){
+            var toot_menu = document.createElement('div');
+            toot_menu.className = "toot_menu";
+            menu.appendChild(toot_menu);
+        } else {
+            menu.remove(document.getElementsByClassName('toot_menu')[0]);
+        }
     }
 
     </script>
 </head>
 <body>
     <div id="menu">
-        <!-- <input type="image" src="logout.png" value="ログアウト" onclick="location.href='/logout'"> -->
         <div class="buttons">
             <input type="button" value="投稿" onclick="openTootField()">
             <input type="button" value="検索" onclick="">
