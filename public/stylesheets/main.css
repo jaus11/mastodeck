@@ -116,11 +116,6 @@ html,body {
     color: white;
 }
 
-.https_label {
-    color: white;
-    font-size: 30px;
-}
-
 .toot_menu {
     height: 100%;
     width: 300px;
@@ -167,7 +162,13 @@ html,body {
     text-align: center;
 }
 
+.https_label {
+    color: white;
+    font-size: 30px;
+}
+
 .url_input input {
+    width: 600px;
     height: 30px;
     font-size: 30px;
 }
