@@ -153,3 +153,13 @@ html,body {
     height: 300px;
     width: 250px;
 }
+
+.topTitle {
+    color: white;
+    font-size: 300px;
+    text-align: center;
+}
+
+.url_input {
+    text-align: center;
+}

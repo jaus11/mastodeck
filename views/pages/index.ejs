@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
     <script type="text/javascript">
+    var accounts = {};
     var url = {};
 
     function stream(column){
@@ -173,12 +174,17 @@
             var toot_button = document.createElement("input");
             toot_button.setAttribute('type','submit');
             toot_button.setAttribute('value','toot');
+            toot_button.setAttribute('onclick','toot()');
             toot_menu.appendChild(toot_button)
 
             menu.appendChild(toot_menu);
         } else {
             menu.removeChild(document.getElementsByClassName('toot_menu')[0]);
         }
+    }
+
+    function toot(){
+
     }
 
     </script>
