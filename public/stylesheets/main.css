@@ -45,7 +45,7 @@ html,body {
 #columns {
     overflow-x:auto;
     overflow-y:hidden;
-    width:90%;
+    width: auto;
     height: 100%;
     white-space:nowrap;
     background-color: black;
