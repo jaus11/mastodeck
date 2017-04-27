@@ -167,9 +167,9 @@ html,body {
     font-size: 30px;
 }
 
-.url_input input {
+.textarea {
     color: gray;
-    width: 600px;
+    width: 250px;
     height: 30px;
     font-size: 30px;
 }
