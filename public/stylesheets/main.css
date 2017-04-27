@@ -82,6 +82,7 @@ html,body {
     text-align: center;
     font-size: 40px;
     display: table-cell block;
+    vertical-align: middle;
 }
 
 #cell {
