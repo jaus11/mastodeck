@@ -56,7 +56,7 @@ html,body {
 }
 
 #column {
-    /*width: 300px;*/
+    width: 300px;
     height: 100%;
     background-color: black;
     display: inline-block;
@@ -86,7 +86,7 @@ html,body {
 }
 
 #cell {
-    width: 300px;
+    width: 290px;
     height: auto;
     background-color: #232020;
     margin: 5px;
