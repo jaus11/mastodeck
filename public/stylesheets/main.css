@@ -43,7 +43,7 @@ html,body {
 #menu {
     padding: 0px 0px 0px;
     /*width: 5%;*/
-    height: 1000%;
+    height: 100%;
     float: left;
     background-color: black;
     display: inline-block;
