@@ -92,7 +92,6 @@ html,body {
 #cell {
     width: 300px;
     height: auto;
-    padding: 2px;
     border-bottom: solid 1px black;
     background-color: #232020;
     white-space: normal;
