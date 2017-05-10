@@ -154,10 +154,15 @@
     }
 
     function createPanel(){
-        var panel = document.createElement('div');
-        panel.id = "panel";
-        panel.style.zIndex=1;
-        document.body.appendChild(panel);
+        var panel = document.getElementById('panel');
+        if(panel){
+            document.body.removeChild(panel);
+        }else{
+            var panel = document.createElement('div');
+            panel.id = "panel";
+            panel.style.zIndex=1;
+            document.body.appendChild(panel);
+        }
     }
 
     function openTootField(){
