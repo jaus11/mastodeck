@@ -52,7 +52,7 @@ html,body {
 }
 
 #columns {
-    overflow-x:scroll;
+    overflow-x:auto;
     overflow-y:hidden;
     width: auto;
     height: 100%;
