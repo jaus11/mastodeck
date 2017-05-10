@@ -33,6 +33,11 @@ html,body {
     height: 100%;
 }
 
+.main {
+    width: 100%;
+    float: left;
+}
+
 #menu {
     padding: 0px 0px 0px;
     /*width: 5%;*/
@@ -47,7 +52,6 @@ html,body {
     overflow-x:auto;
     overflow-y:hidden;
     width: auto;
-    float: left;
     height: 100%;
     white-space:nowrap;
     background-color: black;
