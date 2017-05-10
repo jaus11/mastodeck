@@ -94,6 +94,8 @@ html,body {
     width: 300px;
     height: auto;
     padding: 2px;
+    border-width: 1px;
+    border-color: black;
     background-color: #232020;
     white-space: normal;
     word-wrap: break-word;
