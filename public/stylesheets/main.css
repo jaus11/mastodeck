@@ -33,12 +33,12 @@ html,body {
     height: 100%;
 }
 
-.main {
+/*.main {
     width: auto;
     float: left;
-    /*display: inline-block;
-    vertical-align: top;*/
-}
+    display: inline-block;
+    vertical-align: top;
+}*/
 
 #menu {
     padding: 0px 0px 0px;
