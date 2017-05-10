@@ -87,17 +87,15 @@ html,body {
     color: white;
     text-align: center;
     font-size: 40px;
-    display: table-cell block;
-    vertical-align: middle;
+    display: block;
 }
 
 #cell {
     width: 300px;
     height: auto;
+    padding: 2px;
     background-color: #232020;
-    margin: 5px;
-    padding: 0px;
-    white-space:normal;
+    white-space: normal;
     word-wrap: break-word;
 }
 
