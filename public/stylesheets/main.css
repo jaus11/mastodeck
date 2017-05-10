@@ -42,7 +42,6 @@ html,body {
 
 #menu {
     padding: 0px 0px 0px;
-    /*width: 5%;*/
     height: 100%;
     float: left;
     background-color: black;
@@ -51,7 +50,8 @@ html,body {
 }
 
 #columns {
-    overflow-x:hidden;
+    float: left;
+    overflow-x:auto;
     overflow-y:hidden;
     width: auto;
     height: 100%;
