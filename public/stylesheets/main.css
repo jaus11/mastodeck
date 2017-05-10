@@ -51,7 +51,7 @@ html,body {
 }
 
 #columns {
-    overflow-x:auto;
+    overflow-x:hidden;
     overflow-y:hidden;
     width: auto;
     height: 100%;
