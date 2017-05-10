@@ -31,6 +31,7 @@ html,body {
     margin: 0px;
     background-color: black;
     height: 100%;
+    overflow: scroll;
 }
 
 .main {
@@ -51,7 +52,7 @@ html,body {
 }
 
 #columns {
-    overflow-x:auto;
+    overflow-x:scroll;
     overflow-y:hidden;
     width: auto;
     height: 100%;
@@ -71,9 +72,9 @@ html,body {
 
 #toot_field {
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     /*width: 300px;*/
-    height: 92%;
+    height: 100%;
     background-color: black;
     display: block;
 }
