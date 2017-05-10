@@ -36,6 +36,8 @@ html,body {
 .main {
     width: auto;
     float: left;
+    display: inline-block;
+    vertical-align: top;
 }
 
 #menu {
