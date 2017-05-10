@@ -36,14 +36,14 @@ html,body {
 .main {
     width: auto;
     float: left;
-    display: inline-block;
-    vertical-align: top;
+    /*display: inline-block;
+    vertical-align: top;*/
 }
 
 #menu {
     padding: 0px 0px 0px;
     /*width: 5%;*/
-    height: 100%;
+    height: 1000%;
     float: left;
     background-color: black;
     display: inline-block;
